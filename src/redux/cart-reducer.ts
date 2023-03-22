@@ -6,7 +6,8 @@ const cartSlice = createSlice({
 	name: "cart",
 	initialState: {
 		cartProducts: [] as Array<ProductType>,
-		isCartOpened: false
+		isCartOpened: false,
+		totalPrice: 0,
 	},
 	reducers: {
 		addToCart(state, action) {
@@ -18,10 +19,13 @@ const cartSlice = createSlice({
 		},
 		setIsCartOpened(state, action) {
 			state.isCartOpened = action.payload
-		}
+		},
+		setTotalPrice(state, action) {
+			state.totalPrice = action.payload
+		},
 	}
 })
 
-export const { addToCart, removeFromCart, setIsCartOpened } = cartSlice.actions
+export const { addToCart, removeFromCart, setIsCartOpened, setTotalPrice } = cartSlice.actions
 
 export default cartSlice.reducer

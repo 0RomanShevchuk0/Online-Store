@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { numberToUSD } from '../helpers/NumberToUSD'
-import { addToCart, setIsCartOpened } from '../redux/cart-reducer'
+import { addToCart, setIsCartOpened, setTotalPrice } from '../redux/cart-reducer'
 import { getCurrentProduct } from '../redux/products-reducer'
 import { GlobalStateType } from '../redux/store'
 import { ProductType } from '../types/types'
@@ -19,6 +19,8 @@ const ProductDetails: FC = () => {
 	const searchParams = useParams<{id: string}>()
 	const productItem = useSelector((state: GlobalStateType) => state.products.currentProduct)
 	const cartProducts: Array<ProductType> = useSelector((state: GlobalStateType) => state.cart.cartProducts)
+	const totalPrice = useSelector((state: GlobalStateType) => state.cart.totalPrice)
+
 
 	const isProductInCart = cartProducts.some((cardProduct) => cardProduct.id === productItem?.id)
 	
@@ -30,6 +32,7 @@ const ProductDetails: FC = () => {
 	
 	function addProductToCart() {
 		if(!isProductInCart) {
+			dispatch(setTotalPrice(totalPrice + productItem.price))
 			dispatch(addToCart(productItem))
 		}
 	}

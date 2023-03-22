@@ -1,14 +1,21 @@
-import React, { FC } from 'react'
-import { useDispatch } from 'react-redux'
+import React, { FC, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { numberToUSD } from '../helpers/NumberToUSD'
-import { removeFromCart } from '../redux/cart-reducer'
+import { removeFromCart, setTotalPrice } from '../redux/cart-reducer'
 import { ProductType } from '../types/types'
 import trashIcon from '../assets/icons/trash.svg'
+import { GlobalStateType } from '../redux/store'
 
 
 const CartProduct: FC<ProductType> = (props) => {
 	const dispatch = useDispatch()
+	const totalPrice = useSelector((state: GlobalStateType) => state.cart.totalPrice)
+
+	function removeProduct() {
+		dispatch(setTotalPrice(totalPrice - props.price))
+		dispatch(removeFromCart(props.id))
+	}
 
 	return (
 		<Container>
@@ -26,7 +33,7 @@ const CartProduct: FC<ProductType> = (props) => {
 						</Info>
 				</Main>
 				<Button 
-					onClick={() => dispatch(removeFromCart(props.id))} 
+					onClick={removeProduct} 
 					title='Remove'
 				>
 					<img src={trashIcon} alt="" />

@@ -4,7 +4,8 @@ import styled from 'styled-components'
 import { GlobalStateType } from '../../redux/store'
 import CartProduct from '../CartProduct'
 import xMarkIcon from "../../assets/icons/x-mark.svg";
-import { setIsCartOpened } from '../../redux/cart-reducer'
+import { setIsCartOpened, setTotalPrice } from '../../redux/cart-reducer'
+import { numberToUSD } from '../../helpers/NumberToUSD'
 
 
 const Cart: FC = () => {
@@ -14,9 +15,11 @@ const Cart: FC = () => {
 
 	const cartProductItems = cartProducts.map((item) => <CartProduct key={item.id} {...item} />)
 
+	const totalPrice = useSelector((state: GlobalStateType) => state.cart.totalPrice)
+
+
 	const ref: any = useRef()
 	const [cartTopOffset, setCartTopOffset] = useState<number>(0)
-
 	useEffect(() => {
 		if(isCartOpened) {
 			setCartTopOffset(-ref?.current?.getBoundingClientRect().top + ref?.current?.getBoundingClientRect().height / 30)
@@ -46,7 +49,7 @@ const Cart: FC = () => {
 				{cartProductItems}
 			</Products>
 			<Summary>
-				Total: 329
+				Total: {numberToUSD(totalPrice)}
 				<button>Checkout</button>
 			</Summary>
 		</Container>
