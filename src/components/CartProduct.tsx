@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { numberToUSD } from '../helpers/NumberToUSD'
@@ -12,9 +12,20 @@ const CartProduct: FC<ProductType> = (props) => {
 	const dispatch = useDispatch()
 	const totalPrice = useSelector((state: GlobalStateType) => state.cart.totalPrice)
 
+	const [itemsAmount, setItemsAmount] = useState(1)
+
 	function removeProduct() {
-		dispatch(setTotalPrice(totalPrice - props.price))
+		dispatch(setTotalPrice(totalPrice - props.price * itemsAmount))
 		dispatch(removeFromCart(props.id))
+	}
+
+	function increaseAmount() {
+		setItemsAmount((prev:number) => prev + 1)
+		dispatch(setTotalPrice(totalPrice + props.price))
+	}
+	function decreaseAmount() {
+		setItemsAmount((prev:number) => prev - 1)
+		dispatch(setTotalPrice(totalPrice - props.price))
 	}
 
 	return (
@@ -27,9 +38,16 @@ const CartProduct: FC<ProductType> = (props) => {
 							<Price>
 								{numberToUSD(props.price)}
 							</Price>
-							<ItemCount>
-								<MiniButton>-</MiniButton> 1 <MiniButton>+</MiniButton>
-							</ItemCount>
+							<TotalCount>
+								<MiniButton 
+									onClick={decreaseAmount}
+									disabled={itemsAmount === 1} 
+								>
+									-
+								</MiniButton>
+								{itemsAmount} 
+								<MiniButton onClick={increaseAmount}>+</MiniButton>
+							</TotalCount>
 						</Info>
 				</Main>
 				<Button 
@@ -85,7 +103,7 @@ const Price = styled.div`
 	font-weight: 500;
 `
 
-const ItemCount = styled.div`
+const TotalCount = styled.div`
 	display: flex;
 	align-items: center;
 	gap: 25px;
@@ -123,6 +141,13 @@ const MiniButton = styled.button`
 	border: 1px solid black;
 	border-radius: 10px;
 	background: none;
+
+	&:disabled {
+		color: #bdbaba;
+		border-color: #bdbaba;
+		cursor: default;
+	}
+
 	&:hover {
 		background: none;
 	}
