@@ -46,6 +46,6 @@ const Button = styled.button`
 	background-color: inherit;
 
 	&:hover {
-		background: #9585ae;
+		background-color: #9585ae;
 	}
 `

@@ -113,7 +113,7 @@ const Products = styled.div`
 		left: 15%;
 		width: 70%;
 		height: 1px;
-		background: #D6D6D6;
+		background-color: #D6D6D6;
 	}
 	&::before {
 		top: 0;
