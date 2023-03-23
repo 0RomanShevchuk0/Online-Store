@@ -18,11 +18,15 @@ const Cart: FC = () => {
 	const totalPrice = useSelector((state: GlobalStateType) => state.cart.totalPrice)
 
 
-	const ref: any = useRef()
+	const ref = useRef<any>()
 	const [cartTopOffset, setCartTopOffset] = useState<number>(0)
 	useEffect(() => {
 		if(isCartOpened) {
-			setCartTopOffset(-ref?.current?.getBoundingClientRect().top + ref?.current?.getBoundingClientRect().height / 30)
+			if(window.innerWidth > 768) {
+				setCartTopOffset(-ref?.current?.getBoundingClientRect().top + ref?.current?.getBoundingClientRect().height / 30)
+			} else {
+				setCartTopOffset(-ref?.current?.getBoundingClientRect().top)
+			}
 			setTimeout(() => {
 				ref.current.style.opacity=1
 				ref.current.style.visibility='visible'
@@ -76,6 +80,13 @@ const Container = styled.div`
 	overflow-x: hidden;
 	transition: 0.2s;
 	border-radius: 30px;
+
+	@media screen and (max-width: 768px) {
+		width: 100%;
+		height: 100%;
+		border-radius: 0;
+		padding: 0px 0px;
+	}
 `
 
 const Button = styled.button`
@@ -91,6 +102,11 @@ const Button = styled.button`
 
 	&:hover {
 		background: none;
+	}
+
+	@media screen and (max-width: 768px) {
+		top: 15px;
+		right: 15px;
 	}
 `
 const Title = styled.h1`
@@ -134,4 +150,10 @@ const Summary = styled.div`
 	font-size: 36px;
 	line-height: 44px;
 	font-weight: 500;
+
+	@media screen and (max-width: 768px) {
+		flex-direction: column;
+		padding: 30px 0px;
+		gap: 20px;
+	}
 `

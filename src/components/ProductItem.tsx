@@ -28,15 +28,31 @@ const Container = styled.div`
   padding: clamp(0.625rem, -0.134rem + 1.58vw, 1.25rem) clamp(1.25rem, -0.269rem + 3.16vw, 2.5rem); //10-20, 20-40
 	margin-bottom: 38px;
 
-	&:not(:nth-child(4n)) {
-		&::after {
-			content: '';
-			position: absolute;
-			top: 10%;
-			right: 0;
-			width: 1px;
-			height: 80%;
-			background-color: #D6D6D6;
+	@media screen and (min-width: 769px) {
+		&:not(:nth-child(4n)) {
+			&::after {
+				content: '';
+				position: absolute;
+				top: 10%;
+				right: 0;
+				width: 1px;
+				height: 80%;
+				background-color: #D6D6D6;
+			}
+		}
+	}
+
+	@media screen and (max-width: 768px) {
+		&:not(:nth-child(2n)) {
+			&::after {
+				content: '';
+				position: absolute;
+				top: 10%;
+				right: 0;
+				width: 1px;
+				height: 80%;
+				background-color: #D6D6D6;
+			}
 		}
 	}
 `;
@@ -51,6 +67,7 @@ const Title = styled.div`
   -webkit-line-clamp: 2;
   line-clamp: 2;
   -webkit-box-orient: vertical;
+	
 	margin-top: 16px;
 	font-weight: 400;
 `;

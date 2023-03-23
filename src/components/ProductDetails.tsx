@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react'
+import React, { FC, useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useParams } from 'react-router-dom'
 import styled from 'styled-components'
@@ -36,16 +36,36 @@ const ProductDetails: FC = () => {
 			dispatch(addToCart(productItem))
 		}
 	}
+
+
+	const upperTitle = useRef<any>()
+	const lowerTitle = useRef<any>()
+	useEffect(() => {
+		function onResize() {
+			if(window.innerWidth > 768) {
+				upperTitle.current.style.display = 'none'
+				lowerTitle.current.style.display = 'block'
+			} else {
+				upperTitle.current.style.display = 'block'
+				lowerTitle.current.style.display = 'none'
+			}
+		}
+		onResize()
+		window.addEventListener('resize', onResize)
+
+		return () => window.removeEventListener('resize', onResize)
+	}, [])
 	
 	return (
 		<div>
 			<Link to='/'><Icon src={BackArrowIcon} alt='' /></Link>
 			<Container>
 				<div>
+					<Title ref={upperTitle}>{productItem?.title}</Title>
 					<Image src={productItem?.image} alt="" />
 				</div>
 				<Content>
-					<Title>{productItem?.title}</Title>
+					<Title ref={lowerTitle}>{productItem?.title}</Title>
 					<Price>
 						{numberToUSD(productItem?.price as number)}
 					</Price>
@@ -84,6 +104,13 @@ const Container = styled.div`
 	@media screen and (max-width: 1100px) {
 		grid-template-columns: 1fr 1fr ;
 		gap: 40px;
+	}
+
+	@media screen and (max-width: 768px) {
+		grid-template-columns: 1fr;
+		gap: 0;
+		/* display: flex;
+		flex-direction: column; */
 	}
 `
 

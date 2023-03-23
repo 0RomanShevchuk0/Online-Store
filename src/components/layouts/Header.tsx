@@ -35,6 +35,10 @@ const Container = styled.div`
 	padding: 0px 30px;
 	box-sizing: border-box;
 	padding: 0px 100px;
+
+	@media screen and (max-width: 768px) {
+		padding: 0px 20px;
+	}
 `
 
 const Button = styled.button`

@@ -82,7 +82,8 @@ const Info = styled.div`
 `
 const Image = styled.img`
 	display: block;
-	width: 110px;
+	width: 40%;
+	max-width: 110px;
 	height: 160px;
 	object-fit: contain;
 	flex-shrink: 0;
@@ -93,6 +94,13 @@ const Title = styled.div`
 	font-size: 20px;
 	line-height: 24px;
 	font-weight: 400;
+
+	overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
 `
 
 const Price = styled.div`
