@@ -32,7 +32,7 @@ const App = () => {
 	}, [isCartOpened])
 	
   return (
-    <div>
+    <AppContainer className="qq">
 			<Header />
 			<MainContent>	
 				<Routes>
@@ -42,14 +42,19 @@ const App = () => {
 				<Cart />
 				<Overlay />
 			</MainContent>
-    </div>
+    </AppContainer>
   )
 }
 
 export default App
 
-const MainContent = styled.div`
+const AppContainer = styled.div`
+	width: 100%;
 	max-width: 1400px;
+	margin: 0px auto;
+`
+const MainContent = styled.div`
+	width: 100%;
 	box-sizing: border-box;
 	margin-top: 130px;
 `

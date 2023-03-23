@@ -24,5 +24,5 @@ export default Home
 
 const Container = styled.div`
 	display: grid;
-	grid-template-columns: 1fr 1fr 1fr 1fr;
+	grid-template-columns: 25% 25% 25% 25%;
 `

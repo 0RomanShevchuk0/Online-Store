@@ -64,7 +64,7 @@ const Container = styled.div`
 	left: 50%; 
 	transform: translate(-50%, -50%);	
 	width: 70%;
-	height: 800px;
+	height: 94%;
 	background-color: #fff;
 	z-index: 50;
 	overflow: auto;

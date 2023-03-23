@@ -74,18 +74,21 @@ const ProductDetails: FC = () => {
 export default ProductDetails
 
 const Container = styled.div`
-	width: 1400px;
 	display: grid;
-	grid-template-columns: 40% 50%;
+	grid-template-columns: 4fr 6fr;
 	box-sizing: border-box;
-	padding: 10px 0px;
+	padding: 10px 30px;
 	gap: 80px;
 	justify-content: space-between;
+
+	@media screen and (max-width: 1100px) {
+		grid-template-columns: 1fr 1fr ;
+		gap: 40px;
+	}
 `
 
 const Image = styled.img`
 	width: 100%;
-	min-width: 550px;
 	height: 500px;
 	object-fit: contain;
 `
@@ -95,13 +98,16 @@ const Icon = styled.img`
 `
 
 const Content = styled.div`
-	/* max-width: 80%; */
 `
 
 const Title = styled.div`
 	font-size: 32px;
 	line-height: 39px;
 	font-weight: 400;
+
+	@media screen and (max-width: 1100px) {
+		font-size: 28px;
+	}
 `
 
 const Price = styled.div`
@@ -109,6 +115,10 @@ const Price = styled.div`
 	font-size: 32px;
 	line-height: 39px;
 	font-weight: 500;
+
+	@media screen and (max-width: 1100px) {
+		font-size: 28px;
+	}
 `
 
 const Rating = styled.div`
@@ -116,6 +126,10 @@ const Rating = styled.div`
 	font-size: 24px;
 	line-height: 18px;
 	font-weight: 500;
+
+	@media screen and (max-width: 1100px) {
+		font-size: 20px;
+	}
 `
 
 const IsAvailable = styled.div`
@@ -124,6 +138,12 @@ const IsAvailable = styled.div`
 	font-size: 24px;
 	line-height: 18px;
 	font-weight: 500;
+
+	@media screen and (max-width: 1100px) {
+		font-size: 20px;
+		margin-top: 24px;
+		margin-bottom: 44px;
+	}
 `
 
 const AdditionalInfo = styled.div`
@@ -131,6 +151,12 @@ const AdditionalInfo = styled.div`
 	flex-direction: column;
 	gap: 8px;
 	margin-top: 45px;
+
+	@media screen and (max-width: 1100px) {
+		img {
+			width: 28px;
+		}
+	}
 `
 
 const InfoItem = styled.div`
@@ -139,6 +165,10 @@ const InfoItem = styled.div`
 	font-size: 20px;
 	line-height: 18px;
 	font-weight: 400;
+
+	@media screen and (max-width: 1100px) {
+		font-size: 16px;
+	}
 `
 
 const Description = styled.div`

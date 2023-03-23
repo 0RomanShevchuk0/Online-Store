@@ -25,7 +25,7 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: space-between;
   position: relative;
-  padding: 20px 40px;
+  padding: clamp(0.625rem, -0.134rem + 1.58vw, 1.25rem) clamp(1.25rem, -0.269rem + 3.16vw, 2.5rem); //10-20, 20-40
 	margin-bottom: 38px;
 
 	&:not(:nth-child(4n)) {
@@ -57,7 +57,7 @@ const Title = styled.div`
 
 const Image = styled.img`
   width: 100%;
-  height: 250px;
+  height: clamp(9.375rem, 1.78rem + 15.82vw, 15.625rem); // 250 to 150
   object-fit: contain;
 `;
 
