@@ -1,10 +1,14 @@
+:root {
+	--light: #fff;
+	--dark: rgb(33, 29, 29);
+}
+
 * {
 	margin: 0px 0px;
 }
 
 body {
-	overflow: auto;
-	margin: 0px 30px;
+	overflow-y: auto;
 }
 
 .removedScroll {
@@ -13,20 +17,32 @@ body {
 
 button {
 	cursor: pointer;
-	width: 362px;
-	height: 53px;
-	font-size: 24px;
-	background-color: #323232;
-	color: #fff;
-	border-radius: 16px;
-	transition: .1s;
 	border: none;
+}
 
-	&:hover {
-		background-color: #3f3f3f;
-	}
+.light {
+	background: var(--light);
+	color: var(--dark);
+}
 
-	@media screen and (max-width: 1100px) {
-		width: 250px;
-	}
+.dark {
+	background: var(--dark);
+	color: var(--light);
+}
+
+.light a{
+	color: var(--dark);
+}
+.dark a{
+	color: var(--light);
+}
+
+.light .cart {
+	background: var(--light);
+	color: var(--dark);
+}
+
+.dark .cart {
+	background: var(--dark);
+	color: var(--light);
 }

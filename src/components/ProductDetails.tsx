@@ -12,6 +12,8 @@ import deliveryParcelIcon from '../assets/icons/delivery-parcel.svg'
 import deliveryTruckIcon from '../assets/icons/delivery-truck.svg'
 import storeSearchIcon from '../assets/icons/store-search.svg'
 import BackArrowIcon from '../assets/icons/back-arrow.svg'
+import Preloader from './layouts/Preloader'
+import MyButton from './UI/Button'
 
 
 const ProductDetails: FC = () => {
@@ -43,8 +45,10 @@ const ProductDetails: FC = () => {
 	useEffect(() => {
 		function onResize() {
 			if(window.innerWidth > 768) {
-				upperTitle.current.style.display = 'none'
-				lowerTitle.current.style.display = 'block'
+				if(upperTitle.current && lowerTitle.current) {
+					upperTitle.current.style.display = 'none'
+					lowerTitle.current.style.display = 'block'
+				}
 			} else {
 				upperTitle.current.style.display = 'block'
 				lowerTitle.current.style.display = 'none'
@@ -54,7 +58,9 @@ const ProductDetails: FC = () => {
 		window.addEventListener('resize', onResize)
 
 		return () => window.removeEventListener('resize', onResize)
-	}, [])
+	}, [productItem])
+
+	if(!productItem) return <Preloader />
 	
 	return (
 		<div>
@@ -74,8 +80,8 @@ const ProductDetails: FC = () => {
 						<Icon src={checkMarkIcon} alt="" />{productItem?.rating?.count ? 'In stock' : 'Out of stock'}
 					</IsAvailable>
 					{isProductInCart ?
-						<button onClick={() => dispatch(setIsCartOpened(true))}>To cart</button> :
-						<button onClick={addProductToCart}>Add to Cart</button>
+						<MyButton clickHandler={() => dispatch(setIsCartOpened(true))}>To cart</MyButton> :
+						<MyButton clickHandler={addProductToCart}>Add to Cart</MyButton>
 					}
 					<AdditionalInfo>
 						<InfoItem><Icon src={deliveryParcelIcon} /> Free delivery on orders over 20$</InfoItem>
@@ -100,6 +106,8 @@ const Container = styled.div`
 	padding: 10px 30px;
 	gap: 80px;
 	justify-content: space-between;
+	height: 85vh;
+	box-sizing: border-box;
 
 	@media screen and (max-width: 1100px) {
 		grid-template-columns: 1fr 1fr ;
@@ -109,8 +117,6 @@ const Container = styled.div`
 	@media screen and (max-width: 768px) {
 		grid-template-columns: 1fr;
 		gap: 0;
-		/* display: flex;
-		flex-direction: column; */
 	}
 `
 

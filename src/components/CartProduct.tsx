@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC, useContext, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { numberToUSD } from '../helpers/NumberToUSD'
@@ -6,13 +6,16 @@ import { removeFromCart, setTotalPrice } from '../redux/cart-reducer'
 import { ProductType } from '../types/types'
 import trashIcon from '../assets/icons/trash.svg'
 import { GlobalStateType } from '../redux/store'
+import { ThemeContext } from '../providers/ThemeProvider'
 
 
 const CartProduct: FC<ProductType> = (props) => {
 	const dispatch = useDispatch()
 	const totalPrice = useSelector((state: GlobalStateType) => state.cart.totalPrice)
-
+	
 	const [itemsAmount, setItemsAmount] = useState(1)
+	
+	const {theme} = useContext(ThemeContext)
 
 	function removeProduct() {
 		dispatch(setTotalPrice(totalPrice - props.price * itemsAmount))
@@ -42,11 +45,17 @@ const CartProduct: FC<ProductType> = (props) => {
 								<MiniButton 
 									onClick={decreaseAmount}
 									disabled={itemsAmount === 1} 
-								>
+									theme={theme}
+									>
 									-
 								</MiniButton>
 								{itemsAmount} 
-								<MiniButton onClick={increaseAmount}>+</MiniButton>
+								<MiniButton
+									onClick={increaseAmount}
+									theme={theme}
+								>
+									+
+								</MiniButton>
 							</TotalCount>
 						</Info>
 				</Main>
@@ -90,7 +99,6 @@ const Image = styled.img`
 `
 
 const Title = styled.div`
-	color: black;
 	font-size: 20px;
 	line-height: 24px;
 	font-weight: 400;
@@ -139,20 +147,20 @@ const Button = styled.button`
 const MiniButton = styled.button`
 	width: 24px;
 	height: 24px;
-	color: black;
+	color: ${(props) => props.theme === 'light' ? 'var(--dark)' : 'var(--light)'};
 	font-size: 24px;
 
 	display: flex;
 	align-items: center;
 	justify-content: center;
 
-	border: 1px solid black;
+	border: 1px solid ${(props) => props.theme === 'light' ? 'var(--dark)' : 'var(--light)'};
 	border-radius: 10px;
 	background: none;
 
 	&:disabled {
-		color: #bdbaba;
-		border-color: #bdbaba;
+		color: #989595;
+		border-color: #989595;
 		cursor: default;
 	}
 

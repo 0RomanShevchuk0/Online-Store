@@ -59,7 +59,6 @@ const Container = styled.div`
 
 const Title = styled.div`
   font-size: 16px;
-	color: black;
 
   overflow: hidden;
   text-overflow: ellipsis;

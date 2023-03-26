@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { GlobalStateType } from '../redux/store'
 import { ProductType } from '../types/types'
+import Preloader from './layouts/Preloader'
 import ProductItem from './ProductItem'
 
 
@@ -11,6 +12,8 @@ const Home: FC = () => {
 	
 	const ProductItems = products?.map((item: ProductType) => <ProductItem key={item.id} {...item} />)
 	
+	if(products.length < 1) return <Preloader />
+
 	return (
 	<div>	
 		<Container>
