@@ -4,11 +4,12 @@ import styled from 'styled-components'
 type PropsType = {
 	children: string
 	clickHandler?: () => void
+	type?: "button" | "submit" | "reset" | undefined 
 }
 
-const MyButton: FC<PropsType> = ({children, clickHandler}) => {
+const MyButton: FC<PropsType> = ({children, clickHandler, type}) => {
 	return (
-		<ButtonContainer onClick={clickHandler}>
+		<ButtonContainer onClick={clickHandler} type={type}>
 			{children}
 		</ButtonContainer>
 	)

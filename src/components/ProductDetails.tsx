@@ -106,8 +106,8 @@ const Container = styled.div`
 	padding: 10px 30px;
 	gap: 80px;
 	justify-content: space-between;
-	height: 85vh;
 	box-sizing: border-box;
+	height: 100%;
 
 	@media screen and (max-width: 1100px) {
 		grid-template-columns: 1fr 1fr ;
