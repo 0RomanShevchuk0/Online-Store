@@ -1,5 +1,4 @@
 import React, { createContext, Dispatch, FC, SetStateAction, useState } from 'react'
-import ToggleButton from "react-theme-toggle-button";
 
 export const ThemeContext = createContext<ThemeStateType>({theme: 'light'} as ThemeStateType)
 
