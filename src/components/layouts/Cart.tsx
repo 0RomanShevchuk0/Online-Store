@@ -1,52 +1,53 @@
-import React, { FC, useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import styled from "styled-components";
-import { GlobalStateType } from "../../redux/store";
-import CartProduct from "../CartProduct";
-import xMarkIcon from "../../assets/icons/x-mark.svg";
-import { setIsCartOpened } from "../../redux/cart-reducer";
-import { numberToUSD } from "../../helpers/NumberToUSD";
-import MyButton from "../UI/Button";
+import React, { FC, useEffect, useRef, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import styled from "styled-components"
+import { GlobalStateType } from "../../redux/store"
+import CartProduct from "../CartProduct"
+import { setIsCartOpened } from "../../redux/cart-reducer"
+import { numberToUSD } from "../../helpers/NumberToUSD"
+import MyButton from "../UI/MyButton"
+import xMarkIcon from "../../assets/icons/x-mark.svg"
+import emptyCart from "../../assets/empty-cart.png"
 
 const Cart: FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
   const cartProducts = useSelector(
     (state: GlobalStateType) => state.cart.cartProducts
-  );
+  )
   const isCartOpened = useSelector(
     (state: GlobalStateType) => state.cart.isCartOpened
-  );
+  )
 
   const cartProductItems = cartProducts.map((item) => (
     <CartProduct key={item.id} {...item} />
-  ));
+  ))
 
   const totalPrice = useSelector(
     (state: GlobalStateType) => state.cart.totalPrice
-  );
+  )
 
-  const ref = useRef<any>();
-  const [cartTopOffset, setCartTopOffset] = useState<number>(0);
+  const ref = useRef<any>()
+  const [cartTopOffset, setCartTopOffset] = useState<number>(0)
   useEffect(() => {
     if (isCartOpened) {
       if (window.innerWidth > 768) {
         setCartTopOffset(
           -ref?.current?.getBoundingClientRect().top +
             ref?.current?.getBoundingClientRect().height / 30
-        );
+        )
       } else {
-        setCartTopOffset(-ref?.current?.getBoundingClientRect().top);
+        setCartTopOffset(-ref?.current?.getBoundingClientRect().top)
       }
       setTimeout(() => {
-        ref.current.style.opacity = 1;
-        ref.current.style.visibility = "visible";
-      }, 100);
+        ref.current.style.opacity = 1
+        ref.current.style.visibility = "visible"
+      }, 100)
     } else {
-      ref.current.style.opacity = 0;
-      ref.current.style.visibility = "hidden";
-      setCartTopOffset(0);
+      ref.current.style.opacity = 0
+      ref.current.style.visibility = "hidden"
+      setCartTopOffset(0)
     }
-  }, [isCartOpened]);
+  }, [isCartOpened])
 
   return (
     <Container
@@ -69,7 +70,7 @@ const Cart: FC = () => {
             : {}
         }
       >
-        {cartProducts.length < 1 && <div>Cart is empty</div>}
+        {cartProducts.length < 1 && <div><img src={emptyCart} alt="" /></div>}
         {cartProductItems}
       </Products>
       <Summary>
@@ -77,10 +78,10 @@ const Cart: FC = () => {
         <MyButton>Checkout</MyButton>
       </Summary>
     </Container>
-  );
-};
+  )
+}
 
-export default Cart;
+export default Cart
 
 const Container = styled.div`
   position: absolute;

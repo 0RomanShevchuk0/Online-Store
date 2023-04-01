@@ -1,27 +1,48 @@
-import React, { FC, useContext } from "react";
-import { useDispatch } from "react-redux";
+import React, { FC, useContext, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { setIsCartOpened } from "../../redux/cart-reducer";
 import cartIcon from "../../assets/icons/cart.svg";
 import { ThemeContext } from "../../providers/ThemeProvider";
+import { GlobalStateType } from "../../redux/store";
+import { Link, useNavigate } from "react-router-dom";
+import { removeUser } from "../../redux/user-reducer";
 
 const Header: FC = () => {
-  const dispatch = useDispatch();
-
+  const dispatch = useDispatch()
+	const navigate = useNavigate()
+	const isAuthorized = useSelector((state: GlobalStateType) => state.user.isAuthorized)
+	const userName = useSelector((state: GlobalStateType) => state.user.name)
 	const { theme, setTheme } = useContext(ThemeContext)
 
   return (
     <Container>
-      Header
-      <div style={{display:'flex'}}>
+      <Link to="/">Home</Link>
+      <FlexBlock style={{display:'flex'}}>
 				<Button onClick={() => theme === 'light' ? setTheme('dark') : setTheme('light')}>{theme}</Button>
-        <Button
-          title="Open cart"
-          onClick={() => dispatch(setIsCartOpened(true))}
-        >
-          <img src={cartIcon} alt="" />
-        </Button>
-      </div>
+				{isAuthorized ? (
+					<Button
+						title="Open cart"
+						onClick={() => dispatch(setIsCartOpened(true))}
+					>
+						<img src={cartIcon} alt="" />
+					</Button> ) : 
+					<Button
+						title="Open cart"
+						onClick={() => navigate('/login')}
+					>
+						<img src={cartIcon} alt="" />
+					</Button> 
+				}
+
+				{isAuthorized ? (
+					<FlexBlock>
+						<div>{userName ? userName : 'user'}</div>
+						<Button onClick={() => dispatch(removeUser())}>Log Out</Button>
+					</FlexBlock>) : (
+					<Link to="/login">Log In</Link>
+				)}
+      </FlexBlock>
     </Container>
   );
 };
@@ -34,7 +55,7 @@ const Container = styled.div`
   left: 0;
   width: 100%;
   height: 80px;
-  background: #8b7ba4;
+  background-color: #8b7ba4;
   z-index: 10;
 
   display: flex;
@@ -48,6 +69,12 @@ const Container = styled.div`
     padding: 0px 20px;
   }
 `;
+
+const FlexBlock = styled.div`
+	display: flex;
+	align-items: center;
+	gap: 10px;
+`
 
 const Button = styled.button`
   width: 50px;

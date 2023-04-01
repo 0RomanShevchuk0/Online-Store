@@ -11,7 +11,7 @@ import { getAllProducts } from "./redux/products-reducer";
 import { GlobalStateType } from "./redux/store";
 import { ThemeContext } from "./providers/ThemeProvider";
 import Login from "./components/Login";
-import Authorize from "./components/Authorize";
+import SignUp from "./components/SignUp";
 
 //? Light/Dark theme
 
@@ -45,7 +45,7 @@ const App = () => {
             <Route element={<Home />} path="/" />
             <Route element={<ProductDetails />} path="/products/:id" />
             <Route element={<Login />} path="/login" />
-            <Route element={<Authorize />} path="/authorize" />
+            <Route element={<SignUp />} path="/Sign-up" />
             <Route element={<div>Page not found</div>} path="*" />
           </Routes>
           <Cart />

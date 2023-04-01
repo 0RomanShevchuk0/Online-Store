@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link, useParams } from 'react-router-dom'
+import { Link, Navigate, useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { numberToUSD } from '../helpers/NumberToUSD'
 import { addToCart, setIsCartOpened, setTotalPrice } from '../redux/cart-reducer'
@@ -13,16 +13,18 @@ import deliveryTruckIcon from '../assets/icons/delivery-truck.svg'
 import storeSearchIcon from '../assets/icons/store-search.svg'
 import BackArrowIcon from '../assets/icons/back-arrow.svg'
 import Preloader from './layouts/Preloader'
-import MyButton from './UI/Button'
+import MyButton from './UI/MyButton'
 
 
 const ProductDetails: FC = () => {
 	const dispatch = useDispatch()
 	const searchParams = useParams<{id: string}>()
+	const navigate = useNavigate()
+	
 	const productItem = useSelector((state: GlobalStateType) => state.products.currentProduct)
 	const cartProducts: Array<ProductType> = useSelector((state: GlobalStateType) => state.cart.cartProducts)
 	const totalPrice = useSelector((state: GlobalStateType) => state.cart.totalPrice)
-
+	const isAuthorized = useSelector((state: GlobalStateType) => state.user.isAuthorized)
 
 	const isProductInCart = cartProducts.some((cardProduct) => cardProduct.id === productItem?.id)
 	
@@ -60,7 +62,7 @@ const ProductDetails: FC = () => {
 		return () => window.removeEventListener('resize', onResize)
 	}, [productItem])
 
-	if(!productItem) return <Preloader />
+	if(!productItem) return <Preloader />	
 	
 	return (
 		<div>
@@ -68,7 +70,9 @@ const ProductDetails: FC = () => {
 			<Container>
 				<div>
 					<Title ref={upperTitle}>{productItem?.title}</Title>
-					<Image src={productItem?.image} alt="" />
+					<ImageContainer>
+						<Image src={productItem?.image} alt="" />
+					</ImageContainer>
 				</div>
 				<Content>
 					<Title ref={lowerTitle}>{productItem?.title}</Title>
@@ -79,9 +83,12 @@ const ProductDetails: FC = () => {
 					<IsAvailable>
 						<Icon src={checkMarkIcon} alt="" />{productItem?.rating?.count ? 'In stock' : 'Out of stock'}
 					</IsAvailable>
-					{isProductInCart ?
-						<MyButton clickHandler={() => dispatch(setIsCartOpened(true))}>To cart</MyButton> :
-						<MyButton clickHandler={addProductToCart}>Add to Cart</MyButton>
+					{isAuthorized ? 
+						(isProductInCart ?
+							<MyButton clickHandler={() => dispatch(setIsCartOpened(true))}>To cart</MyButton> :
+							<MyButton clickHandler={addProductToCart}>Add to Cart</MyButton>
+						) :
+							<MyButton clickHandler={() => navigate('/login')}>To cart</MyButton>
 					}
 					<AdditionalInfo>
 						<InfoItem><Icon src={deliveryParcelIcon} /> Free delivery on orders over 20$</InfoItem>
@@ -120,9 +127,17 @@ const Container = styled.div`
 	}
 `
 
+const ImageContainer = styled.div`
+	width: 100%;
+	background: #fff;
+	border-radius: 12px;
+`
+
 const Image = styled.img`
 	width: 100%;
 	height: 500px;
+	padding: 20px;
+	box-sizing: border-box;
 	object-fit: contain;
 `
 

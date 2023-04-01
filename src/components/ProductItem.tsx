@@ -8,7 +8,9 @@ const ProductItem: FC<ProductType> = (props) => {
   return (
     <Container>
       <Link to={`products/${props.id}`} style={{textDecoration: 'none'}}>
-        <Image src={props.image} alt="" />
+				<ImageBackground>
+					<Image src={props.image} alt="" />
+				</ImageBackground>
         <Title>{props.title}</Title>
       </Link>
       <Price>
@@ -71,10 +73,17 @@ const Title = styled.div`
 	font-weight: 400;
 `;
 
+const ImageBackground = styled.div`
+	background-color: #fff;
+	border-radius: 12px;
+`
+
 const Image = styled.img`
   width: 100%;
-  height: clamp(9.375rem, 1.78rem + 15.82vw, 15.625rem); // 250 to 150
+  height: clamp(9.375rem, 1.78rem + 15.82vw, 15.625rem); // 250px to 150px
+	padding: 20px;
   object-fit: contain;
+	box-sizing: border-box;
 `;
 
 const Price = styled.div`

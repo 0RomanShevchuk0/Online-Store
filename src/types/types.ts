@@ -7,3 +7,9 @@ export type ProductType = {
 	rating: {rate: number, count: number}
 	title: string 
 }
+
+export type AuthInputs = {
+	email: string,
+	password: string
+	name?: string
+}
