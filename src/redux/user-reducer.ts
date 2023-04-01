@@ -21,7 +21,7 @@ const userSlice = createSlice({
 			state.name = action.payload.name
 			state.email = action.payload.email
 			state.id = action.payload.id
-			state.isAuthorized = true
+			if(action.payload.email) state.isAuthorized = true
 		},
 		removeUser(state) {
 			state.name = null
