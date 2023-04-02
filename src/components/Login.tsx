@@ -13,37 +13,33 @@ import Preloader from './layouts/Preloader'
 const Login: FC = () => {	
 	const dispatch = useDispatch()
 	const [isLoading, setIsLoading] = useState(false)
-	const [isError, setIsError] = useState(false)
 
 	const handleLogin: SubmitHandler<AuthInputs> = async (data) => {
 		try {
+			let isError = false
 			setIsLoading(true)
 			const auth = getAuth()
-			const user = auth.currentUser
-			await signInWithEmailAndPassword(auth, data.email, data.password).catch((err) => {
-				alert(err)
-				setIsError(true)
-				debugger
+			await signInWithEmailAndPassword(auth, data.email, data.password).catch((error) => {
+				isError = true
+				alert(error)
 			})
 			if(isError) {
-				setIsLoading(false)
+			setIsLoading(false)
 				return
 			}
-			debugger
 			dispatch(setUser({ 
-				name: user?.displayName, 
-				email: user?.email, 
-				id: user?.uid 
+				name: auth.currentUser?.displayName, 
+				email: auth.currentUser?.email, 
+				id: auth.currentUser?.uid 
 			}))
-			
 			setIsLoading(false)
-		} catch(err) {
-				alert(err)
+		} catch(error) {
+				alert(error)
 		}
 	}
 
-	const userEmail = useSelector((state: GlobalStateType) => state.user.email)
-	if(userEmail) return <Navigate to="/" />
+	const isAuthorized = useSelector((state: GlobalStateType) => state.user.isAuthorized)
+	if(isAuthorized) return <Navigate to="/" />
 
 	if(isLoading) return <Preloader />
 
