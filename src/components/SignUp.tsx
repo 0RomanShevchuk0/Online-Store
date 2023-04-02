@@ -17,9 +17,17 @@ const SignUp: FC = () => {
 	
 	const handleSignUp: SubmitHandler<AuthInputs> = async (data) => {
 		try {
+			let isError = false
 			setIsLoading(true)
 			const auth = getAuth()
-			await createUserWithEmailAndPassword(auth, data.email, data.password).catch((err) => alert(err))
+			await createUserWithEmailAndPassword(auth, data.email, data.password).catch((err) => {
+				isError = true
+				alert(err)
+			})
+			if(isError) {
+				setIsLoading(false)
+				return
+			}
 			await updateProfile(auth.currentUser as User, {displayName: data.name}).catch((err) => alert(err))
 			const user = auth.currentUser
 			dispatch(setUser({ 
