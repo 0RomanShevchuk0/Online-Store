@@ -52,8 +52,10 @@ const ProductDetails: FC = () => {
 					lowerTitle.current.style.display = 'block'
 				}
 			} else {
-				upperTitle.current.style.display = 'block'
-				lowerTitle.current.style.display = 'none'
+				if(upperTitle.current && lowerTitle.current) {
+					upperTitle.current.style.display = 'block'
+					lowerTitle.current.style.display = 'none'
+				}
 			}
 		}
 		onResize()
@@ -88,7 +90,7 @@ const ProductDetails: FC = () => {
 							<MyButton clickHandler={() => dispatch(setIsCartOpened(true))}>To cart</MyButton> :
 							<MyButton clickHandler={addProductToCart}>Add to Cart</MyButton>
 						) :
-							<MyButton clickHandler={() => navigate('/login')}>To cart</MyButton>
+							<MyButton clickHandler={() => navigate('/login')}>Add to Cart</MyButton>
 					}
 					<AdditionalInfo>
 						<InfoItem><Icon src={deliveryParcelIcon} /> Free delivery on orders over 20$</InfoItem>
@@ -108,7 +110,7 @@ export default ProductDetails
 
 const Container = styled.div`
 	display: grid;
-	grid-template-columns: 4fr 6fr;
+	grid-template-columns: 1fr 1fr;
 	box-sizing: border-box;
 	padding: 10px 30px;
 	gap: 80px;

@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600&display=swap');
+
 :root {
 	--light: #fff;
 	--dark: rgb(33, 29, 29);
@@ -9,6 +11,7 @@
 
 body {
 	overflow-y: auto;
+	font-family: 'Montserrat', sans-serif;
 }
 
 .removedScroll {
@@ -18,6 +21,7 @@ body {
 button {
 	cursor: pointer;
 	border: none;
+	font-family: 'Montserrat', sans-serif;
 }
 
 .light {

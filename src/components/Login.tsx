@@ -16,8 +16,8 @@ const Login: FC = () => {
 
 	const handleLogin: SubmitHandler<AuthInputs> = async (data) => {
 		try {
-			let isError = false
 			setIsLoading(true)
+			let isError = false
 			const auth = getAuth()
 			await signInWithEmailAndPassword(auth, data.email, data.password).catch((error) => {
 				isError = true

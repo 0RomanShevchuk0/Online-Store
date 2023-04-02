@@ -9,39 +9,46 @@ import { Link, useNavigate } from "react-router-dom";
 import { removeUser } from "../../redux/user-reducer";
 
 const Header: FC = () => {
-  const dispatch = useDispatch()
-	const navigate = useNavigate()
-	const isAuthorized = useSelector((state: GlobalStateType) => state.user.isAuthorized)
-	const userName = useSelector((state: GlobalStateType) => state.user.name)
-	const { theme, setTheme } = useContext(ThemeContext)
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const isAuthorized = useSelector(
+    (state: GlobalStateType) => state.user.isAuthorized
+  );
+  const userName = useSelector((state: GlobalStateType) => state.user.name);
+  const { theme, setTheme } = useContext(ThemeContext);
 
   return (
     <Container>
       <Link to="/">Home</Link>
-      <FlexBlock style={{display:'flex'}}>
-				<Button onClick={() => theme === 'light' ? setTheme('dark') : setTheme('light')}>{theme}</Button>
-				{isAuthorized ? (
-					<Button
-						title="Open cart"
-						onClick={() => dispatch(setIsCartOpened(true))}
-					>
-						<img src={cartIcon} alt="" />
-					</Button> ) : 
-					<Button
-						title="Open cart"
-						onClick={() => navigate('/login')}
-					>
-						<img src={cartIcon} alt="" />
-					</Button> 
-				}
+      <FlexBlock style={{ display: "flex" }}>
+        <Button
+          onClick={() =>
+            theme === "light" ? setTheme("dark") : setTheme("light")
+          }
+        >
+          {theme}
+        </Button>
+        {isAuthorized ? (
+          <Button
+            title="Open cart"
+            onClick={() => dispatch(setIsCartOpened(true))}
+          >
+            <img src={cartIcon} alt="cart" />
+          </Button>
+        ) : (
+          <Button title="Open cart" onClick={() => navigate("/login")}>
+            <img src={cartIcon} alt="cart" />
+          </Button>
+        )}
 
-				{isAuthorized ? (
-					<FlexBlock>
-						<div>{userName ? userName : 'user'}</div>
-						<Button onClick={() => dispatch(removeUser())}>Log Out</Button>
-					</FlexBlock>) : (
-					<Link to="/login">Log In</Link>
-				)}
+        {isAuthorized ? (
+          <FlexBlock>
+            <div>{userName ? userName : "user"}</div>
+            <Button onClick={() => dispatch(removeUser())}>Log Out</Button>
+          </FlexBlock>
+        ) : (
+          <Link to="/login">Log In</Link>
+        )}
       </FlexBlock>
     </Container>
   );
@@ -71,10 +78,10 @@ const Container = styled.div`
 `;
 
 const FlexBlock = styled.div`
-	display: flex;
-	align-items: center;
-	gap: 10px;
-`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+`;
 
 const Button = styled.button`
   width: 50px;
@@ -83,7 +90,7 @@ const Button = styled.button`
   justify-content: center;
   align-items: center;
   background-color: inherit;
-	border-radius: 12px;
+  border-radius: 12px;
 
   &:hover {
     background-color: #9585ae;
