@@ -128,9 +128,9 @@ Error generating stack: `+o.message+`
 	@media screen and (max-width: 1100px) {
 		width: 250px;
 	}
-`,wC=()=>{var f,h;const e=mn(),t=eE(),n=_l(),r=rt(y=>y.products.currentProduct),i=rt(y=>y.cart.cartProducts),o=rt(y=>y.cart.totalPrice),s=rt(y=>y.user.isAuthorized),a=i.some(y=>y.id===(r==null?void 0:r.id));O.useEffect(()=>(e(qp(t.id)),()=>e(qp(null))),[]);function l(){a||(e(As(o+r.price)),e(Kk(r)))}const u=O.useRef(),c=O.useRef();return O.useEffect(()=>{function y(){window.innerWidth>768?u.current&&c.current&&(u.current.style.display="none",c.current.style.display="block"):(u.current.style.display="block",c.current.style.display="none")}return y(),window.addEventListener("resize",y),()=>window.removeEventListener("resize",y)},[r]),r?ce("div",{children:[T(hi,{to:"/",children:T($i,{src:mC,alt:""})}),ce(SC,{children:[ce("div",{children:[T(Jp,{ref:u,children:r==null?void 0:r.title}),T(_C,{children:T(EC,{src:r==null?void 0:r.image,alt:""})})]}),ce(kC,{children:[T(Jp,{ref:c,children:r==null?void 0:r.title}),T(xC,{children:El(r==null?void 0:r.price)}),T(CC,{children:(f=r==null?void 0:r.rating)==null?void 0:f.rate}),ce(IC,{children:[T($i,{src:dC,alt:""}),(h=r==null?void 0:r.rating)!=null&&h.count?"In stock":"Out of stock"]}),s?a?T(Ms,{clickHandler:()=>e(kl(!0)),children:"To cart"}):T(Ms,{clickHandler:l,children:"Add to Cart"}):T(Ms,{clickHandler:()=>n("/login"),children:"To cart"}),ce(PC,{children:[ce(Eu,{children:[T($i,{src:fC})," Free delivery on orders over 20$"]}),ce(Eu,{children:[T($i,{src:hC})," Estimated delivery in United Kingdom on Apr 17"]}),ce(Eu,{children:[T($i,{src:pC})," Find in-store"]})]})]})]})]}):T(Tl,{})},SC=J.div`
+`,wC=()=>{var f,h;const e=mn(),t=eE(),n=_l(),r=rt(y=>y.products.currentProduct),i=rt(y=>y.cart.cartProducts),o=rt(y=>y.cart.totalPrice),s=rt(y=>y.user.isAuthorized),a=i.some(y=>y.id===(r==null?void 0:r.id));O.useEffect(()=>(e(qp(t.id)),()=>e(qp(null))),[]);function l(){a||(e(As(o+r.price)),e(Kk(r)))}const u=O.useRef(),c=O.useRef();return O.useEffect(()=>{function y(){window.innerWidth>768?u.current&&c.current&&(u.current.style.display="none",c.current.style.display="block"):u.current&&c.current&&(u.current.style.display="block",c.current.style.display="none")}return y(),window.addEventListener("resize",y),()=>window.removeEventListener("resize",y)},[r]),r?ce("div",{children:[T(hi,{to:"/",children:T($i,{src:mC,alt:""})}),ce(SC,{children:[ce("div",{children:[T(Jp,{ref:u,children:r==null?void 0:r.title}),T(_C,{children:T(EC,{src:r==null?void 0:r.image,alt:""})})]}),ce(kC,{children:[T(Jp,{ref:c,children:r==null?void 0:r.title}),T(xC,{children:El(r==null?void 0:r.price)}),T(CC,{children:(f=r==null?void 0:r.rating)==null?void 0:f.rate}),ce(IC,{children:[T($i,{src:dC,alt:""}),(h=r==null?void 0:r.rating)!=null&&h.count?"In stock":"Out of stock"]}),s?a?T(Ms,{clickHandler:()=>e(kl(!0)),children:"To cart"}):T(Ms,{clickHandler:l,children:"Add to Cart"}):T(Ms,{clickHandler:()=>n("/login"),children:"Add to Cart"}),ce(PC,{children:[ce(Eu,{children:[T($i,{src:fC})," Free delivery on orders over 20$"]}),ce(Eu,{children:[T($i,{src:hC})," Estimated delivery in United Kingdom on Apr 17"]}),ce(Eu,{children:[T($i,{src:pC})," Find in-store"]})]})]})]})]}):T(Tl,{})},SC=J.div`
 	display: grid;
-	grid-template-columns: 4fr 6fr;
+	grid-template-columns: 1fr 1fr;
 	box-sizing: border-box;
 	padding: 10px 30px;
 	gap: 80px;
@@ -221,7 +221,7 @@ Error generating stack: `+o.message+`
 	}
 `;J.div`
 	
-`;const Yp="/Online-Store/assets/cart-0a6f2383.svg",Ol=O.createContext({theme:"light"}),TC=({children:e})=>{const[t,n]=O.useState("light");return T(Ol.Provider,{value:{theme:t,setTheme:n},children:e})},qv=vf({name:"user",initialState:{name:null,email:null,id:null,isAuthorized:!1},reducers:{setUser(e,t){e.name=t.payload.name,e.email=t.payload.email,e.id=t.payload.id,e.isAuthorized=!0},removeUser(e){e.name=null,e.email=null,e.id=null,e.isAuthorized=!1}}}),{setUser:Pf,removeUser:OC}=qv.actions,RC=qv.reducer,AC=()=>{const e=mn(),t=_l(),n=rt(s=>s.user.isAuthorized),r=rt(s=>s.user.name),{theme:i,setTheme:o}=O.useContext(Ol);return ce(bC,{children:[T(hi,{to:"/",children:"Home"}),ce(Xp,{style:{display:"flex"},children:[T(ms,{onClick:()=>o(i==="light"?"dark":"light"),children:i}),n?T(ms,{title:"Open cart",onClick:()=>e(kl(!0)),children:T("img",{src:Yp,alt:""})}):T(ms,{title:"Open cart",onClick:()=>t("/login"),children:T("img",{src:Yp,alt:""})}),n?ce(Xp,{children:[T("div",{children:r||"user"}),T(ms,{onClick:()=>e(OC()),children:"Log Out"})]}):T(hi,{to:"/login",children:"Log In"})]})]})},bC=J.div`
+`;const Yp="/Online-Store/assets/cart-0a6f2383.svg",Ol=O.createContext({theme:"light"}),TC=({children:e})=>{const[t,n]=O.useState("light");return T(Ol.Provider,{value:{theme:t,setTheme:n},children:e})},qv=vf({name:"user",initialState:{name:null,email:null,id:null,isAuthorized:!1},reducers:{setUser(e,t){e.name=t.payload.name,e.email=t.payload.email,e.id=t.payload.id,e.isAuthorized=!0},removeUser(e){e.name=null,e.email=null,e.id=null,e.isAuthorized=!1}}}),{setUser:Pf,removeUser:OC}=qv.actions,RC=qv.reducer,AC=()=>{const e=mn(),t=_l(),n=rt(s=>s.user.isAuthorized),r=rt(s=>s.user.name),{theme:i,setTheme:o}=O.useContext(Ol);return ce(bC,{children:[T(hi,{to:"/",children:"Home"}),ce(Xp,{style:{display:"flex"},children:[T(ms,{onClick:()=>o(i==="light"?"dark":"light"),children:i}),n?T(ms,{title:"Open cart",onClick:()=>e(kl(!0)),children:T("img",{src:Yp,alt:"cart"})}):T(ms,{title:"Open cart",onClick:()=>t("/login"),children:T("img",{src:Yp,alt:"cart"})}),n?ce(Xp,{children:[T("div",{children:r||"user"}),T(ms,{onClick:()=>e(OC()),children:"Log Out"})]}):T(hi,{to:"/login",children:"Log In"})]})]})},bC=J.div`
   position: fixed;
   top: 0;
   left: 0;
@@ -241,9 +241,9 @@ Error generating stack: `+o.message+`
     padding: 0px 20px;
   }
 `,Xp=J.div`
-	display: flex;
-	align-items: center;
-	gap: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 `,ms=J.button`
   width: 50px;
   height: 50px;
@@ -251,7 +251,7 @@ Error generating stack: `+o.message+`
   justify-content: center;
   align-items: center;
   background-color: inherit;
-	border-radius: 12px;
+  border-radius: 12px;
 
   &:hover {
     background-color: #9585ae;
@@ -2021,7 +2021,7 @@ Error generating stack: `+o.message+`
 `,ys=J.div`
 	margin-left: 10px;
 	color: #ce1d1d;
-`,gR=()=>{const e=mn(),[t,n]=O.useState(!1),r=async o=>{var s,a,l;try{let u=!1;n(!0);const c=jf();if(await kT(c,o.email,o.password).catch(f=>{u=!0,alert(f)}),u){n(!1);return}e(Pf({name:(s=c.currentUser)==null?void 0:s.displayName,email:(a=c.currentUser)==null?void 0:a.email,id:(l=c.currentUser)==null?void 0:l.uid})),n(!1)}catch(u){alert(u)}};return rt(o=>o.user.isAuthorized)?T(sv,{to:"/"}):t?T(Tl,{}):T(Bm,{children:T(W0,{title:"Log In",onSubmit:r})})},yR=()=>{const e=mn(),[t,n]=O.useState(!1),r=async o=>{try{let s=!1;n(!0);const a=jf();if(await ET(a,o.email,o.password).catch(u=>{s=!0,alert(u)}),s){n(!1);return}await CT(a.currentUser,{displayName:o.name}).catch(u=>alert(u));const l=a.currentUser;e(Pf({name:l==null?void 0:l.displayName,email:l==null?void 0:l.email,id:l==null?void 0:l.uid})),n(!1)}catch(s){alert(s)}};return rt(o=>o.user.email)?T(sv,{to:"/"}):t?T(Tl,{}):T(Bm,{children:T(W0,{title:"Sign up",onSubmit:r,registration:!0})})},vR=()=>{const e=mn(),t=rt(r=>r.cart.isCartOpened);O.useEffect(()=>{e(lC())},[]),O.useEffect(()=>{const r=document.querySelector("body");t?r==null||r.classList.add("removedScroll"):r==null||r.classList.remove("removedScroll")},[t]);const{theme:n}=O.useContext(Ol);return T(wR,{className:n,children:ce(SR,{children:[T(AC,{}),ce(_R,{children:[ce(dE,{children:[T(br,{element:T(FC,{}),path:"/"}),T(br,{element:T(wC,{}),path:"/products/:id"}),T(br,{element:T(gR,{}),path:"/login"}),T(br,{element:T(yR,{}),path:"/Sign-up"}),T(br,{element:T("div",{children:"Page not found"}),path:"*"})]}),T(eI,{}),T(sI,{})]})]})})},wR=J.div`
+`,gR=()=>{const e=mn(),[t,n]=O.useState(!1),r=async o=>{var s,a,l;try{n(!0);let u=!1;const c=jf();if(await kT(c,o.email,o.password).catch(f=>{u=!0,alert(f)}),u){n(!1);return}e(Pf({name:(s=c.currentUser)==null?void 0:s.displayName,email:(a=c.currentUser)==null?void 0:a.email,id:(l=c.currentUser)==null?void 0:l.uid})),n(!1)}catch(u){alert(u)}};return rt(o=>o.user.isAuthorized)?T(sv,{to:"/"}):t?T(Tl,{}):T(Bm,{children:T(W0,{title:"Log In",onSubmit:r})})},yR=()=>{const e=mn(),[t,n]=O.useState(!1),r=async o=>{try{let s=!1;n(!0);const a=jf();if(await ET(a,o.email,o.password).catch(u=>{s=!0,alert(u)}),s){n(!1);return}await CT(a.currentUser,{displayName:o.name}).catch(u=>alert(u));const l=a.currentUser;e(Pf({name:l==null?void 0:l.displayName,email:l==null?void 0:l.email,id:l==null?void 0:l.uid})),n(!1)}catch(s){alert(s)}};return rt(o=>o.user.email)?T(sv,{to:"/"}):t?T(Tl,{}):T(Bm,{children:T(W0,{title:"Sign up",onSubmit:r,registration:!0})})},vR=()=>{const e=mn(),t=rt(r=>r.cart.isCartOpened);O.useEffect(()=>{e(lC())},[]),O.useEffect(()=>{const r=document.querySelector("body");t?r==null||r.classList.add("removedScroll"):r==null||r.classList.remove("removedScroll")},[t]);const{theme:n}=O.useContext(Ol);return T(wR,{className:n,children:ce(SR,{children:[T(AC,{}),ce(_R,{children:[ce(dE,{children:[T(br,{element:T(FC,{}),path:"/"}),T(br,{element:T(wC,{}),path:"/products/:id"}),T(br,{element:T(gR,{}),path:"/login"}),T(br,{element:T(yR,{}),path:"/Sign-up"}),T(br,{element:T("div",{children:"Page not found"}),path:"*"})]}),T(eI,{}),T(sI,{})]})]})})},wR=J.div`
 	min-height: 100vh;
 `,SR=J.div`
   width: 100%;
