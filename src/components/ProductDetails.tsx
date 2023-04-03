@@ -14,6 +14,7 @@ import storeSearchIcon from '../assets/icons/store-search.svg'
 import BackArrowIcon from '../assets/icons/back-arrow.svg'
 import Preloader from './layouts/Preloader'
 import MyButton from './UI/MyButton'
+import StarRating from '@mui/material/Rating'
 
 
 const ProductDetails: FC = () => {
@@ -81,7 +82,14 @@ const ProductDetails: FC = () => {
 					<Price>
 						{numberToUSD(productItem?.price as number)}
 					</Price>
-					<Rating>{productItem?.rating?.rate}</Rating>
+					<Rating>
+						<StarRating 
+							value={productItem?.rating?.rate}
+							precision={0.1}
+							readOnly
+						/>
+						{productItem?.rating?.rate}
+					</Rating>
 					<IsAvailable>
 						<Icon src={checkMarkIcon} alt="" />{productItem?.rating?.count ? 'In stock' : 'Out of stock'}
 					</IsAvailable>
@@ -172,6 +180,10 @@ const Price = styled.div`
 `
 
 const Rating = styled.div`
+	display: flex;
+	align-items: center;
+	gap: 12px;
+
 	margin-top: 30px;
 	font-size: 24px;
 	line-height: 18px;
