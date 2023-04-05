@@ -1,7 +1,6 @@
-import { useContext, useEffect } from "react";
+import { lazy, Suspense, useContext, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import styled from "styled-components";
-import ProductDetails from "./components/ProductDetails";
 import Header from "./components/layouts/Header";
 import Home from "./components/Home";
 import Cart from "./components/layouts/Cart";
@@ -10,29 +9,29 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllProducts } from "./redux/products-reducer";
 import { GlobalStateType } from "./redux/store";
 import { ThemeContext } from "./providers/ThemeProvider";
-import Login from "./components/Login";
-import SignUp from "./components/SignUp";
-
-//? Light/Dark theme
+import Preloader from "./components/layouts/Preloader";
+const ProductDetails = lazy(() => import("./components/ProductDetails"))
+const Login = lazy(() => import("./components/Login"))
+const SignUp = lazy(() => import("./components/SignUp"))
 
 const App = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
   const isCartOpened = useSelector(
     (state: GlobalStateType) => state.cart.isCartOpened
-  );
+  )
 
   useEffect(() => {
-    dispatch(getAllProducts());
-  }, []);
+    dispatch(getAllProducts())
+  }, [])
 
   useEffect(() => {
-    const body = document.querySelector("body");
+    const body = document.querySelector("body")
     if (isCartOpened) {
-      body?.classList.add("removedScroll");
+      body?.classList.add("removedScroll")
     } else {
-      body?.classList.remove("removedScroll");
+      body?.classList.remove("removedScroll")
     }
-  }, [isCartOpened]);
+  }, [isCartOpened])
 
   const { theme } = useContext(ThemeContext);
 
@@ -43,9 +42,30 @@ const App = () => {
         <MainContent>
           <Routes>
             <Route element={<Home />} path="/" />
-            <Route element={<ProductDetails />} path="/products/:id" />
-            <Route element={<Login />} path="/login" />
-            <Route element={<SignUp />} path="/Sign-up" />
+            <Route
+              element={
+                <Suspense fallback={<Preloader />}>
+                  <ProductDetails />
+                </Suspense>
+              }
+              path="/products/:id"
+            />
+            <Route
+              element={
+                <Suspense fallback={<Preloader />}>
+                  <Login />
+                </Suspense>
+              }
+              path="/login"
+            />
+            <Route
+              element={
+                <Suspense fallback={<Preloader />}>
+                  <SignUp />
+                </Suspense>
+              }
+              path="/Sign-up"
+            />
             <Route element={<div>Page not found</div>} path="*" />
           </Routes>
           <Cart />
@@ -59,7 +79,7 @@ const App = () => {
 export default App;
 
 const Layout = styled.div`
-	min-height: 100vh;
+  min-height: 100vh;
 `;
 const AppContainer = styled.div`
   width: 100%;

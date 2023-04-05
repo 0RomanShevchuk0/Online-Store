@@ -1,20 +1,20 @@
 import React, { FC, useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link, Navigate, useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { numberToUSD } from '../helpers/NumberToUSD'
 import { addToCart, setIsCartOpened, setTotalPrice } from '../redux/cart-reducer'
 import { getCurrentProduct } from '../redux/products-reducer'
 import { GlobalStateType } from '../redux/store'
 import { ProductType } from '../types/types'
-import checkMarkIcon from '../assets/icons/check-mark.svg'
 import deliveryParcelIcon from '../assets/icons/delivery-parcel.svg'
 import deliveryTruckIcon from '../assets/icons/delivery-truck.svg'
 import storeSearchIcon from '../assets/icons/store-search.svg'
-import BackArrowIcon from '../assets/icons/back-arrow.svg'
 import Preloader from './layouts/Preloader'
 import MyButton from './UI/MyButton'
 import StarRating from '@mui/material/Rating'
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
+import DoneIcon from '@mui/icons-material/Done'
 
 
 const ProductDetails: FC = () => {
@@ -42,7 +42,6 @@ const ProductDetails: FC = () => {
 		}
 	}
 
-
 	const upperTitle = useRef<any>()
 	const lowerTitle = useRef<any>()
 	useEffect(() => {
@@ -65,11 +64,12 @@ const ProductDetails: FC = () => {
 		return () => window.removeEventListener('resize', onResize)
 	}, [productItem])
 
-	if(!productItem) return <Preloader />	
+	if(!productItem?.id) return <Preloader />	
+
 	
 	return (
 		<div>
-			<Link to='/'><Icon src={BackArrowIcon} alt='' /></Link>
+			<Link to='/'><ArrowBackIosIcon sx={{fontSize: '28px'}} /></Link>
 			<Container>
 				<div>
 					<Title ref={upperTitle}>{productItem?.title}</Title>
@@ -77,7 +77,7 @@ const ProductDetails: FC = () => {
 						<Image src={productItem?.image} alt="" />
 					</ImageContainer>
 				</div>
-				<Content>
+				<div>
 					<Title ref={lowerTitle}>{productItem?.title}</Title>
 					<Price>
 						{numberToUSD(productItem?.price as number)}
@@ -91,7 +91,8 @@ const ProductDetails: FC = () => {
 						{productItem?.rating?.rate}
 					</Rating>
 					<IsAvailable>
-						<Icon src={checkMarkIcon} alt="" />{productItem?.rating?.count ? 'In stock' : 'Out of stock'}
+						<DoneIcon sx={{fontSize: '28px'}} /> 
+						{productItem?.rating?.count ? 'In stock' : 'Out of stock'}
 					</IsAvailable>
 					{isAuthorized ? 
 						(isProductInCart ?
@@ -105,7 +106,7 @@ const ProductDetails: FC = () => {
 						<InfoItem><Icon src={deliveryTruckIcon} /> Estimated delivery in United Kingdom on Apr 17</InfoItem>
 						<InfoItem><Icon src={storeSearchIcon} /> Find in-store</InfoItem>
 					</AdditionalInfo>
-				</Content>
+				</div>
 					{/* <Description>
 						{productItem?.description}
 					</Description> */}
@@ -153,9 +154,7 @@ const Image = styled.img`
 
 const Icon = styled.img`
 	margin-right: 20px;
-`
-
-const Content = styled.div`
+	width: 28px;
 `
 
 const Title = styled.div`
@@ -195,6 +194,10 @@ const Rating = styled.div`
 `
 
 const IsAvailable = styled.div`
+	display: flex;
+	align-items: center;
+	gap: 10px;
+
 	margin-top: 44px;
 	margin-bottom: 84px;
 	font-size: 24px;

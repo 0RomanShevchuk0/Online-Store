@@ -1,12 +1,18 @@
-import React, { FC, useContext, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import styled from "styled-components";
-import { setIsCartOpened } from "../../redux/cart-reducer";
-import cartIcon from "../../assets/icons/cart.svg";
-import { ThemeContext } from "../../providers/ThemeProvider";
-import { GlobalStateType } from "../../redux/store";
-import { Link, useNavigate } from "react-router-dom";
-import { removeUser } from "../../redux/user-reducer";
+import React, { FC, useContext, useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import styled from "styled-components"
+import { setIsCartOpened } from "../../redux/cart-reducer"
+import cartIcon from "../../assets/icons/cart.svg"
+import { ThemeContext } from "../../providers/ThemeProvider"
+import { GlobalStateType } from "../../redux/store"
+import { Link, useNavigate } from "react-router-dom"
+import { removeUser } from "../../redux/user-reducer"
+import DarkModeIcon from '@mui/icons-material/DarkMode'
+import LightModeIcon from '@mui/icons-material/LightMode'
+import LogoutIcon from '@mui/icons-material/Logout'
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import PersonIcon from '@mui/icons-material/Person';
+import { useMUIIconSettings } from "../../hooks/useMUIIconSettings"
 
 const Header: FC = () => {
   const dispatch = useDispatch();
@@ -14,8 +20,9 @@ const Header: FC = () => {
   const isAuthorized = useSelector(
     (state: GlobalStateType) => state.user.isAuthorized
   );
-  const userName = useSelector((state: GlobalStateType) => state.user.name);
-  const { theme, setTheme } = useContext(ThemeContext);
+  const userName = useSelector((state: GlobalStateType) => state.user.name)
+  const { theme, setTheme } = useContext(ThemeContext)
+	const [muiIconSettings] = useMUIIconSettings()
 
   return (
     <Container>
@@ -26,28 +33,38 @@ const Header: FC = () => {
             theme === "light" ? setTheme("dark") : setTheme("light")
           }
         >
-          {theme}
+          {theme === "light" ? 
+						<LightModeIcon sx={{...muiIconSettings}} /> :
+						<DarkModeIcon sx={{...muiIconSettings}} />
+					} 
         </Button>
         {isAuthorized ? (
           <Button
             title="Open cart"
             onClick={() => dispatch(setIsCartOpened(true))}
           >
-            <img src={cartIcon} alt="cart" />
+            <ShoppingCartIcon sx={{...muiIconSettings}} />
           </Button>
         ) : (
           <Button title="Open cart" onClick={() => navigate("/login")}>
-            <img src={cartIcon} alt="cart" />
+            <ShoppingCartIcon sx={{...muiIconSettings}}/>
           </Button>
         )}
 
         {isAuthorized ? (
           <FlexBlock>
             <div>{userName ? userName : "user"}</div>
-            <Button onClick={() => dispatch(removeUser())}>Log Out</Button>
+            <Button 
+							onClick={() => dispatch(removeUser())}
+							title="Log Out"
+						>
+							<LogoutIcon sx={{...muiIconSettings}} />
+						</Button>
           </FlexBlock>
         ) : (
-          <Link to="/login">Log In</Link>
+					<Button onClick={() => navigate('/login')} title="Log In">
+						<PersonIcon sx={{...muiIconSettings}} />
+					</Button>
         )}
       </FlexBlock>
     </Container>

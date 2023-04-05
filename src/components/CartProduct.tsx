@@ -1,4 +1,4 @@
-import React, { FC, useContext, useEffect, useState } from 'react'
+import React, { FC, useContext, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { numberToUSD } from '../helpers/NumberToUSD'
@@ -7,6 +7,9 @@ import { ProductType } from '../types/types'
 import trashIcon from '../assets/icons/trash.svg'
 import { GlobalStateType } from '../redux/store'
 import { ThemeContext } from '../providers/ThemeProvider'
+import DeleteIcon from '@mui/icons-material/Delete';
+import { useMUIIconSettings } from '../hooks/useMUIIconSettings'
+
 
 
 const CartProduct: FC<ProductType> = (props) => {
@@ -14,8 +17,8 @@ const CartProduct: FC<ProductType> = (props) => {
 	const totalPrice = useSelector((state: GlobalStateType) => state.cart.totalPrice)
 	
 	const [itemsAmount, setItemsAmount] = useState(1)
-	
 	const {theme} = useContext(ThemeContext)
+	const [muiIconSettings] = useMUIIconSettings()
 
 	function removeProduct() {
 		dispatch(setTotalPrice(totalPrice - props.price * itemsAmount))
@@ -35,35 +38,37 @@ const CartProduct: FC<ProductType> = (props) => {
 		<Container>
 			<UpperBlock>
 				<Main>
+					<ImageContainer>
 						<Image src={props.image} alt="" />
-						<Info>
-							<Title>{props.title}</Title>
-							<Price>
-								{numberToUSD(props.price)}
-							</Price>
-							<TotalCount>
-								<MiniButton 
-									onClick={decreaseAmount}
-									disabled={itemsAmount === 1} 
-									theme={theme}
-									>
-									-
-								</MiniButton>
-								{itemsAmount} 
-								<MiniButton
-									onClick={increaseAmount}
-									theme={theme}
+					</ImageContainer>
+					<Info>
+						<Title>{props.title}</Title>
+						<Price>
+							{numberToUSD(props.price)}
+						</Price>
+						<TotalCount>
+							<MiniButton 
+								onClick={decreaseAmount}
+								disabled={itemsAmount === 1} 
+								theme={theme}
 								>
-									+
-								</MiniButton>
-							</TotalCount>
-						</Info>
+								-
+							</MiniButton>
+							{itemsAmount} 
+							<MiniButton
+								onClick={increaseAmount}
+								theme={theme}
+							>
+								+
+							</MiniButton>
+						</TotalCount>
+					</Info>
 				</Main>
 				<Button 
 					onClick={removeProduct} 
 					title='Remove'
 				>
-					<img src={trashIcon} alt="" />
+					<DeleteIcon sx={{...muiIconSettings}} />
 				</Button>
 			</UpperBlock>
 		</Container>
@@ -84,16 +89,28 @@ const UpperBlock = styled.div`
 
 const Main = styled.div`
 	display: flex;
-	gap: 20px;
+	gap: 40px;
 `
 
 const Info = styled.div`
 `
+
+const ImageContainer = styled.div`
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	width: 40%;
+	max-width: 130px;
+	height: 160px;
+
+	background: #fff;
+	border-radius: 12px;
+`
 const Image = styled.img`
 	display: block;
-	width: 40%;
-	max-width: 110px;
-	height: 160px;
+	width: 90%;
+	
 	object-fit: contain;
 	flex-shrink: 0;
 `

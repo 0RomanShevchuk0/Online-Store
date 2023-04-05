@@ -6,8 +6,9 @@ import CartProduct from "../CartProduct"
 import { setIsCartOpened } from "../../redux/cart-reducer"
 import { numberToUSD } from "../../helpers/NumberToUSD"
 import MyButton from "../UI/MyButton"
-import xMarkIcon from "../../assets/icons/x-mark.svg"
 import emptyCart from "../../assets/empty-cart.png"
+import CloseIcon from '@mui/icons-material/Close'
+import { useMUIIconSettings } from "../../hooks/useMUIIconSettings"
 
 const Cart: FC = () => {
   const dispatch = useDispatch()
@@ -17,6 +18,7 @@ const Cart: FC = () => {
   const isCartOpened = useSelector(
     (state: GlobalStateType) => state.cart.isCartOpened
   )
+	const [muiIconSettings] = useMUIIconSettings()
 
   const cartProductItems = cartProducts.map((item) => (
     <CartProduct key={item.id} {...item} />
@@ -56,7 +58,7 @@ const Cart: FC = () => {
       style={isCartOpened ? { marginTop: cartTopOffset } : {}}
     >
       <Button onClick={() => dispatch(setIsCartOpened(false))} title="Close">
-        <img src={xMarkIcon} alt="" />
+				<CloseIcon sx={{...muiIconSettings}} />
       </Button>
       <Title>Cart</Title>
       <Products
