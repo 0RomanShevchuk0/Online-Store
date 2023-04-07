@@ -132,7 +132,7 @@ const SearchBlock = styled.div`
 	&>button {
 		width: 50px;
 		position: absolute;
-		right: 16px;
+		right: 10px;
 		height: 70%;
 
 		background: none;

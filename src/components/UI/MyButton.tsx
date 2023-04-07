@@ -1,5 +1,6 @@
-import React, { FC } from 'react'
+import React, { FC, useContext } from 'react'
 import styled from 'styled-components'
+import { ThemeContext } from '../../providers/ThemeProvider'
 
 type PropsType = {
 	children: string
@@ -8,8 +9,14 @@ type PropsType = {
 }
 
 const MyButton: FC<PropsType> = ({children, clickHandler, type}) => {
+	const {theme} = useContext(ThemeContext)
+
 	return (
-		<ButtonContainer onClick={clickHandler} type={type}>
+		<ButtonContainer 
+			onClick={clickHandler} 
+			type={type}
+			mytheme={theme}
+		>
 			{children}
 		</ButtonContainer>
 	)
@@ -17,19 +24,25 @@ const MyButton: FC<PropsType> = ({children, clickHandler, type}) => {
 
 export default MyButton
 
-const ButtonContainer = styled.button`
+const ButtonContainer = styled.button<{mytheme: 'light' | 'dark'}>`
 	cursor: pointer;
 	width: 362px;
 	height: 53px;
 	font-size: 24px;
-	background-color: #323232;
-	color: #fff;
+	background-color: ${(props) => props.mytheme === 'light' ?
+		'var(--light-accent)' : 'var(--dark-accent)'
+	};
+	color: ${(props) => props.mytheme === 'light' ?
+		'var(--dark)' : 'var(--light)'
+	};
 	border-radius: 16px;
 	transition: .1s;
 	border: none;
 
 	&:hover {
-		background-color: #3f3f3f;
+		background-color: ${(props) => props.mytheme === 'light' ?
+		'var(--light-accent-hover)' : 'var(--dark-accent-hover)'
+	};
 	}
 
 	@media screen and (max-width: 1100px) {
