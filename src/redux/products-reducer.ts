@@ -1,4 +1,3 @@
-import { Dispatch } from 'react';
 import { createSlice } from "@reduxjs/toolkit";
 import fakeStoreAPI from '../services/fakeStoreAPI'
 import { ProductType } from "../types/types";

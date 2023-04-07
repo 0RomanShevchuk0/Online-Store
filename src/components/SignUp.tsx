@@ -5,9 +5,10 @@ import MyForm from './UI/MyForm';
 import { AuthInputs } from '../types/types';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from '../redux/user-reducer';
-import { Navigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { GlobalStateType } from '../redux/store';
 import Preloader from './layouts/Preloader';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
 
 
 const SignUp: FC = () => {
@@ -48,6 +49,7 @@ const SignUp: FC = () => {
 
 	return (
 		<>
+			<Link to='/'><ArrowBackIosIcon sx={{fontSize: '28px'}} /></Link>
 			<MyForm title="Sign up" onSubmit={handleSignUp} registration={true} />
 		</>
 	)

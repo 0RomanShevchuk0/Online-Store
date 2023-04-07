@@ -1,106 +1,170 @@
-import React, { FC, useContext, useEffect } from "react"
-import { useDispatch, useSelector } from "react-redux"
+import React, { FC, useContext, useEffect, useRef, useState } from "react"
+import { useSelector } from "react-redux"
 import styled from "styled-components"
-import { setIsCartOpened } from "../../redux/cart-reducer"
-import cartIcon from "../../assets/icons/cart.svg"
 import { ThemeContext } from "../../providers/ThemeProvider"
 import { GlobalStateType } from "../../redux/store"
 import { Link, useNavigate } from "react-router-dom"
-import { removeUser } from "../../redux/user-reducer"
-import DarkModeIcon from '@mui/icons-material/DarkMode'
-import LightModeIcon from '@mui/icons-material/LightMode'
-import LogoutIcon from '@mui/icons-material/Logout'
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import PersonIcon from '@mui/icons-material/Person';
-import { useMUIIconSettings } from "../../hooks/useMUIIconSettings"
+import SearchIcon from '@mui/icons-material/Search'
+import HeaderMobileMenu from "../HeaderMobileMenu"
+import HeaderDesktopMenu from "../HeaderDesktopMenu"
+import logoImg from "../../assets/logo.svg"
+import logoMobileImg from "../../assets/logo-mobile.svg"
+
 
 const Header: FC = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const isAuthorized = useSelector(
     (state: GlobalStateType) => state.user.isAuthorized
-  );
+  )
   const userName = useSelector((state: GlobalStateType) => state.user.name)
   const { theme, setTheme } = useContext(ThemeContext)
-	const [muiIconSettings] = useMUIIconSettings()
+	const [searchValue, setSearchValue] = useState('')
+	
+	const [isMobile, setIsMobile] = useState(false)
+	
+
+	const logo = useRef<any>()
+	const logoMobile = useRef<any>()
+
+	useEffect(() => {
+		function onResize() {
+			if(window.innerWidth > 768) {
+				setIsMobile(false)
+				
+				logo.current.style.display = 'block'
+				logoMobile.current.style.display = 'none'
+				
+			}
+			else {
+				setIsMobile(true)
+
+				logo.current.style.display = 'none'
+				logoMobile.current.style.display = 'block'
+			}
+		}
+		onResize()
+
+		window.addEventListener('resize', onResize)
+
+		return () => window.removeEventListener('resize', onResize)
+	}, [])
+
 
   return (
-    <Container>
-      <Link to="/">Home</Link>
-      <FlexBlock style={{ display: "flex" }}>
-        <Button
-          onClick={() =>
-            theme === "light" ? setTheme("dark") : setTheme("light")
-          }
-        >
-          {theme === "light" ? 
-						<LightModeIcon sx={{...muiIconSettings}} /> :
-						<DarkModeIcon sx={{...muiIconSettings}} />
-					} 
-        </Button>
-        {isAuthorized ? (
-          <Button
-            title="Open cart"
-            onClick={() => dispatch(setIsCartOpened(true))}
-          >
-            <ShoppingCartIcon sx={{...muiIconSettings}} />
-          </Button>
-        ) : (
-          <Button title="Open cart" onClick={() => navigate("/login")}>
-            <ShoppingCartIcon sx={{...muiIconSettings}}/>
-          </Button>
-        )}
+    <Container mytheme={theme}>
+      <Link to="/">
+				<Logo ref={logo} src={logoImg} alt="logo"/>
+				<Logo ref={logoMobile} src={logoMobileImg} alt="logo" />
+			</Link>
 
-        {isAuthorized ? (
-          <FlexBlock>
-            <div>{userName ? userName : "user"}</div>
-            <Button 
-							onClick={() => dispatch(removeUser())}
-							title="Log Out"
-						>
-							<LogoutIcon sx={{...muiIconSettings}} />
-						</Button>
-          </FlexBlock>
-        ) : (
-					<Button onClick={() => navigate('/login')} title="Log In">
-						<PersonIcon sx={{...muiIconSettings}} />
-					</Button>
-        )}
-      </FlexBlock>
+			<SearchBlock>
+				<Search 
+					value={searchValue} 
+					onChange={(e) => setSearchValue(e.target.value)} 
+					onKeyDown={(e) => e.key === 'Enter' && navigate(`/${searchValue}`)}
+					type="text" 
+					placeholder="Search..."
+				/>
+				<button onClick={() => navigate(`/${searchValue}`)}>
+					<SearchIcon sx={{color: '#808d9a'}} />
+				</button>
+			</SearchBlock>
+
+			{!isMobile ? (
+				<HeaderDesktopMenu
+					isAuthorized={isAuthorized}
+					theme={theme}
+					setTheme={setTheme}
+					userName={userName}
+				/>
+			) : (
+				<HeaderMobileMenu 
+					isAuthorized={isAuthorized}
+					theme={theme}
+					setTheme={setTheme}
+				/>
+			)}
     </Container>
-  );
-};
+  )
+}
 
 export default Header;
 
-const Container = styled.div`
+
+const Container = styled.div<{mytheme: 'light'| 'dark'}>`
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 80px;
-  background-color: #8b7ba4;
+  background-color: ${(props) => props.mytheme === 'light' ?
+		'var(--light-accent)' : 'var(--dark-accent)'
+	};
   z-index: 10;
 
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0px 30px;
+	gap: 20px;
+
   box-sizing: border-box;
   padding: 0px 100px;
 
-  @media screen and (max-width: 768px) {
+  @media (max-width: 1400px) {
     padding: 0px 20px;
   }
-`;
+`
 
-const FlexBlock = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 10px;
-`;
+const Logo = styled.img`
+	width: clamp(4.375rem, -0.625rem + 20vw, 15.625rem);
+	max-height: 60px;
+`
 
-const Button = styled.button`
+const SearchBlock = styled.div`
+	position: relative;
+	max-width: 500px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex: 1;
+	padding: 0px 4px;
+
+	&>button {
+		width: 50px;
+		position: absolute;
+		right: 16px;
+		height: 70%;
+
+		background: none;
+		border-left: 1px solid #808d9a;
+
+		&:hover {
+			background: none;
+		}
+	}
+
+	@media (max-width: 768px) {
+		&>Button {
+			display: none;
+		}
+	}
+`
+
+const Search = styled.input`
+	width: 100%;
+	padding: 10px 16px;
+	border-radius: 50px;
+	font-size: 18px;
+	border: none;
+	box-sizing: border-box;
+
+	&:focus {
+		border: 2px solid #8b7ba4;
+		outline: 1px solid #fff;
+	}
+`
+
+export const Button = styled.button<{mytheme?: 'light' | 'dark'}>`
   width: 50px;
   height: 50px;
   display: flex;
@@ -109,7 +173,11 @@ const Button = styled.button`
   background-color: inherit;
   border-radius: 12px;
 
-  &:hover {
-    background-color: #9585ae;
+	&:hover {
+    background-color: ${(props) => props.mytheme === 'light' ? 
+			'var(--light-accent-hover)' : 'var(--dark-accent-hover)'
+		};
   }
-`;
+`
+
+

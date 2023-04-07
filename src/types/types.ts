@@ -13,3 +13,10 @@ export type AuthInputs = {
 	password: string
 	name?: string
 }
+
+export type HeaderPartType = {
+	theme: 'light' | 'dark'
+	setTheme: (theme: 'light' | 'dark') => void
+	isAuthorized: boolean,
+	userName?: string | null
+}
