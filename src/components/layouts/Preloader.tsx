@@ -1,14 +1,18 @@
 import React, { FC, useContext } from 'react'
-import styled from 'styled-components';
-import preloader from "../../assets/preloader.svg";
-import { ThemeContext } from '../../providers/ThemeProvider';
+import styled from 'styled-components'
+import preloaderDark from "../../assets/preloader-dark.svg"
+import preloaderLight from "../../assets/preloader-light.svg"
+import { ThemeContext } from '../../providers/ThemeProvider'
 
 const Preloader: FC = () => {
 	const {theme} = useContext(ThemeContext)
 
 	return (
 		<Container mytheme={theme}>
-			<img src={preloader} alt="" />
+		{theme === 'light' ? 
+			<img src={preloaderDark} alt="preloader" /> :
+			<img src={preloaderLight} alt="preloader" />
+		}
 		</Container>
 	)
 }

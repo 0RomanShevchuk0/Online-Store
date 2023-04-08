@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef } from 'react'
+import React, { FC, useContext, useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
@@ -7,20 +7,25 @@ import { addToCart, setIsCartOpened, setTotalPrice } from '../redux/cart-reducer
 import { getCurrentProduct } from '../redux/products-reducer'
 import { GlobalStateType } from '../redux/store'
 import { ProductType } from '../types/types'
-import deliveryParcelIcon from '../assets/icons/delivery-parcel.svg'
-import deliveryTruckIcon from '../assets/icons/delivery-truck.svg'
-import storeSearchIcon from '../assets/icons/store-search.svg'
 import Preloader from './layouts/Preloader'
 import MyButton from './UI/MyButton'
 import StarRating from '@mui/material/Rating'
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
 import DoneIcon from '@mui/icons-material/Done'
+import deliveryParcelDarkIcon from '../assets/icons/delivery-parcel-dark.svg'
+import deliveryTruckDarkIcon from '../assets/icons/delivery-truck-dark.svg'
+import storeSearchDarkIcon from '../assets/icons/store-search-dark.svg'
+import deliveryParcelLightIcon from '../assets/icons/delivery-parcel-light.svg'
+import deliveryTruckLightIcon from '../assets/icons/delivery-truck-light.svg'
+import storeSearchLightIcon from '../assets/icons/store-search-light.svg'
+import { ThemeContext } from '../providers/ThemeProvider'
 
 
 const ProductDetails: FC = () => {
 	const dispatch = useDispatch()
 	const searchParams = useParams<{id: string}>()
 	const navigate = useNavigate()
+	const {theme} = useContext(ThemeContext)
 	
 	const productItem = useSelector((state: GlobalStateType) => state.products.currentProduct)
 	const cartProducts: Array<ProductType> = useSelector((state: GlobalStateType) => state.cart.cartProducts)
@@ -102,14 +107,29 @@ const ProductDetails: FC = () => {
 							<MyButton clickHandler={() => navigate('/login')}>Add to Cart</MyButton>
 					}
 					<AdditionalInfo>
-						<InfoItem><Icon src={deliveryParcelIcon} /> Free delivery on orders over 20$</InfoItem>
-						<InfoItem><Icon src={deliveryTruckIcon} /> Estimated delivery in United Kingdom on Apr 17</InfoItem>
-						<InfoItem><Icon src={storeSearchIcon} /> Find in-store</InfoItem>
+						<InfoItem>
+							{theme === 'light' ? 
+							<Icon src={deliveryParcelDarkIcon} /> :
+							<Icon src={deliveryParcelLightIcon} />
+							}
+							Free delivery on orders over 20$
+						</InfoItem>
+						<InfoItem>
+							{theme === 'light' ? 
+							<Icon src={deliveryTruckDarkIcon} /> :
+							<Icon src={deliveryTruckLightIcon} />
+							}
+							Estimated delivery in United Kingdom on Apr 17
+							</InfoItem>
+						<InfoItem>
+							{theme === 'light' ? 
+							<Icon src={storeSearchDarkIcon} /> :
+							<Icon src={storeSearchLightIcon} />
+							}
+							Find in-store
+							</InfoItem>
 					</AdditionalInfo>
 				</div>
-					{/* <Description>
-						{productItem?.description}
-					</Description> */}
 			</Container>
 		</div>
 	)
@@ -234,8 +254,4 @@ const InfoItem = styled.div`
 	@media screen and (max-width: 1100px) {
 		font-size: 16px;
 	}
-`
-
-const Description = styled.div`
-	
 `
