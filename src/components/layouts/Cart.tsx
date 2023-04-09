@@ -51,6 +51,14 @@ const Cart: FC = () => {
     }
   }, [isCartOpened])
 
+	function handleCheckout() {
+		if(cartProducts.length > 0) {
+			alert('Thank you for the purchase')
+		} else {
+			alert('You need to add something to cart first')
+		}
+	}
+
   return (
     <Container
       className="cart"
@@ -77,7 +85,7 @@ const Cart: FC = () => {
       </Products>
       <Summary>
         Total: {numberToUSD(totalPrice)}
-        <MyButton>Checkout</MyButton>
+        <MyButton clickHandler={handleCheckout}>Checkout</MyButton>
       </Summary>
     </Container>
   )

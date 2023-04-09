@@ -12,7 +12,7 @@ import logoMobileImg from "../../assets/logo-mobile.svg"
 
 
 const Header: FC = () => {
-  const navigate = useNavigate()
+	  const navigate = useNavigate()
   const isAuthorized = useSelector(
     (state: GlobalStateType) => state.user.isAuthorized
   )

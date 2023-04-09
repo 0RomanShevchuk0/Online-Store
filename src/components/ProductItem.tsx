@@ -7,7 +7,7 @@ import { numberToUSD } from "../helpers/NumberToUSD";
 const ProductItem: FC<ProductType> = (props) => {
   return (
     <Container>
-      <Link to={`products/${props.id}`} style={{textDecoration: 'none'}}>
+      <Link to={`/products/${props.id}`} style={{textDecoration: 'none'}}>
 				<ImageBackground>
 					<Image src={props.image} alt="" />
 				</ImageBackground>
@@ -27,7 +27,8 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: space-between;
   position: relative;
-  padding: clamp(0.625rem, -0.134rem + 1.58vw, 1.25rem) clamp(1.25rem, -0.269rem + 3.16vw, 2.5rem); //10-20, 20-40
+  padding: clamp(0.625rem, -0.134rem + 1.58vw, 1.25rem)
+	 clamp(1.25rem, -0.269rem + 3.16vw, 2.5rem); //10-20, 20-40
 	margin-bottom: 38px;
 
 	@media screen and (min-width: 769px) {

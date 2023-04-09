@@ -73,7 +73,12 @@ const ProductDetails: FC = () => {
 	
 	return (
 		<div>
-			<Link to='/'><ArrowBackIosIcon sx={{fontSize: '28px'}} /></Link>
+			<span 
+				onClick={() => navigate(-1)}
+				style={{cursor: 'pointer'}}
+			>
+				<ArrowBackIosIcon sx={{fontSize: '28px'}} />
+			</span>
 			<Container>
 				<div>
 					<Title ref={upperTitle}>{productItem?.title}</Title>
