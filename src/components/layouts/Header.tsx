@@ -1,9 +1,9 @@
 import React, { FC, useContext, useEffect, useRef, useState } from "react"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import styled from "styled-components"
 import { ThemeContext } from "../../providers/ThemeProvider"
 import { GlobalStateType } from "../../redux/store"
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import SearchIcon from '@mui/icons-material/Search'
 import HeaderMobileMenu from "../HeaderMobileMenu"
 import HeaderDesktopMenu from "../HeaderDesktopMenu"
@@ -49,22 +49,38 @@ const Header: FC = () => {
 		return () => window.removeEventListener('resize', onResize)
 	}, [])
 
+	useEffect(() => {
+		if(searchValue === '') {
+			const lsSearch = localStorage.getItem('search')
+			if(lsSearch) setSearchValue(lsSearch)
+		}
+	}, [])
+
+	const  handleSearch = () => {
+		localStorage.setItem('search', searchValue)
+		navigate(`/${searchValue}`)
+	}
+
+	function handleLogoClick() {
+		localStorage.removeItem('search')
+		setSearchValue('')
+		navigate('/')
+	}
+
   return (
     <Container mytheme={theme}>
-      <Link to="/">
-				<Logo ref={logo} src={logoImg} alt="logo"/>
-				<Logo ref={logoMobile} src={logoMobileImg} alt="logo" />
-			</Link>
+			<Logo ref={logo} src={logoImg} onClick={handleLogoClick} alt="logo"/>
+			<Logo ref={logoMobile} src={logoMobileImg} onClick={handleLogoClick} alt="logo" />
 
 			<SearchBlock>
 				<Search 
 					value={searchValue} 
 					onChange={(e) => setSearchValue(e.target.value)} 
-					onKeyDown={(e) => e.key === 'Enter' && navigate(`/${searchValue}`)}
+					onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
 					type="text" 
 					placeholder="Search..."
 				/>
-				<button onClick={() => navigate(`/${searchValue}`)}>
+				<button onClick={() => handleSearch()}>
 					<SearchIcon sx={{color: '#808d9a'}} />
 				</button>
 			</SearchBlock>
@@ -117,6 +133,7 @@ const Container = styled.div<{mytheme: 'light'| 'dark'}>`
 const Logo = styled.img`
 	width: clamp(4.375rem, -0.625rem + 20vw, 15.625rem);
 	max-height: 60px;
+	cursor: pointer;
 `
 
 const SearchBlock = styled.div`

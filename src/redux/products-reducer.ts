@@ -8,7 +8,8 @@ const productSlice =  createSlice({
 	initialState: {
 		products: [] as Array<ProductType>,
 		currentProduct: {} as ProductType,
-		categories: [] as string[]
+		categories: [] as string[],
+		search: ''
 	},
 	reducers: {
 		setAllProducts(state, action) {
@@ -19,7 +20,7 @@ const productSlice =  createSlice({
 		},
 		setCategories(state, action) {
 			state.categories = action.payload
-		}
+		},
 	}
 })
 
@@ -48,6 +49,7 @@ export const getCategories =  (): any => {
 	}
 }
 
-export const { setAllProducts, setCurrentProduct, setCategories } = productSlice.actions
+export const { setAllProducts, setCurrentProduct,
+	setCategories } = productSlice.actions
 
 export default productSlice.reducer
