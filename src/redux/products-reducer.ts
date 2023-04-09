@@ -9,6 +9,7 @@ const productSlice =  createSlice({
 		products: [] as Array<ProductType>,
 		currentProduct: {} as ProductType,
 		categories: [] as string[],
+		currentCategory: '',
 		search: ''
 	},
 	reducers: {
@@ -19,7 +20,12 @@ const productSlice =  createSlice({
 			state.currentProduct = action.payload
 		},
 		setCategories(state, action) {
-			state.categories = action.payload
+			state.categories = action.payload.map((item: string) => 
+				item.charAt(0).toLocaleUpperCase() + item.slice(1)
+			)
+		},
+		setCurrentCategory(state, action) {
+			state.currentCategory = action.payload
 		},
 	}
 })
@@ -50,6 +56,6 @@ export const getCategories =  (): any => {
 }
 
 export const { setAllProducts, setCurrentProduct,
-	setCategories } = productSlice.actions
+	setCategories, setCurrentCategory } = productSlice.actions
 
 export default productSlice.reducer

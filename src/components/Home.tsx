@@ -1,4 +1,4 @@
-import React, { FC, useContext, useEffect, useMemo, useState } from "react"
+import React, { FC, useContext, useEffect, useMemo, useRef, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
 import styled from "styled-components"
@@ -7,7 +7,7 @@ import { ProductType } from "../types/types"
 import Preloader from "./layouts/Preloader"
 import ProductItem from "./ProductItem"
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material"
-import { getCategories } from "../redux/products-reducer"
+import { getCategories, setCurrentCategory }from "../redux/products-reducer"
 import { ThemeContext } from "../providers/ThemeProvider"
 
 const Home: FC = () => {
@@ -21,14 +21,17 @@ const Home: FC = () => {
   const categories = useSelector(
 		(state: GlobalStateType) => state.products.categories
 	)
+  const currentCategory = useSelector(
+		(state: GlobalStateType) => state.products.currentCategory
+	)
 
-	const [currentCategory, setCurrentCategory] = useState<string>('')
 	const [displayProducts, setDisplayProducts] = useState<ProductType[] | null>(null)
 
 	useEffect(() => {
 		dispatch(getCategories())
 	}, [])
 
+	// filter search and category
 	useEffect(() => {
 		const searchedProducts = products
 			.filter((item) => {
@@ -39,14 +42,40 @@ const Home: FC = () => {
 			})
 			.filter((item) => {
 				if(currentCategory !== '') {
-					return item.category === currentCategory
+					return item.category.toLocaleLowerCase() === currentCategory.toLocaleLowerCase()
 				} else return item
 			})
 		setDisplayProducts(searchedProducts)
 	}, [products, searchParams.search, currentCategory])
 
+	// set category from local storage
+	useEffect(() => {
+		const lsCurrentCategory = localStorage.getItem('currentCategory')
+		if(currentCategory === '' && lsCurrentCategory) {
+			dispatch(setCurrentCategory(lsCurrentCategory))
+		}
+	}, [])
+
+
+	function handleCategorySelect(e: any) {
+		const selectedCategory = e.target.textContent
+		if(selectedCategory !== 'None') {
+			localStorage.setItem('currentCategory', selectedCategory)
+		} else {
+			localStorage.removeItem('currentCategory')
+		}
+	}
+
 	const menuCategories = categories?.map((item, id) => {
-		return <MenuItem key={id} value={item}>{item}</MenuItem>
+		return (
+			<MenuItem 
+				key={id} 
+				value={item}
+				onClick={handleCategorySelect}
+			>
+				{item}
+			</MenuItem>
+		)
 	})	
 
 	const ProductItems = displayProducts?.map((item) => (
@@ -58,7 +87,7 @@ const Home: FC = () => {
 
   return (
     <div>
-			<MyFormControl>
+			<MyFormControl id="category-form-control">
 				<MyInputLabel 
 					id="category-select-label" 
 					mytheme={theme}
@@ -70,10 +99,15 @@ const Home: FC = () => {
 					id="category-select"
 					value={currentCategory}
 					label="Category"
-					onChange={(e) => setCurrentCategory(e.target.value as string)}
+					onChange={(e) => dispatch(setCurrentCategory(e.target.value as string))}
 					mytheme={theme}
 				>
-					<MenuItem value={''}>None</MenuItem>
+					<MenuItem 
+						value={''}
+						onClick={handleCategorySelect}
+					>
+						None
+					</MenuItem>
 					{menuCategories}
 			</MySelect>
 			</MyFormControl>

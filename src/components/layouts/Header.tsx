@@ -9,20 +9,20 @@ import HeaderMobileMenu from "../HeaderMobileMenu"
 import HeaderDesktopMenu from "../HeaderDesktopMenu"
 import logoImg from "../../assets/logo.svg"
 import logoMobileImg from "../../assets/logo-mobile.svg"
+import { setCurrentCategory } from "../../redux/products-reducer"
 
 
 const Header: FC = () => {
-	  const navigate = useNavigate()
+	const dispatch = useDispatch()
+	const navigate = useNavigate()
   const isAuthorized = useSelector(
     (state: GlobalStateType) => state.user.isAuthorized
   )
   const userName = useSelector((state: GlobalStateType) => state.user.name)
   const { theme, setTheme } = useContext(ThemeContext)
 	const [searchValue, setSearchValue] = useState('')
-	
 	const [isMobile, setIsMobile] = useState(false)
 	
-
 	const logo = useRef<any>()
 	const logoMobile = useRef<any>()
 
@@ -63,6 +63,8 @@ const Header: FC = () => {
 
 	function handleLogoClick() {
 		localStorage.removeItem('search')
+		localStorage.removeItem('currentCategory')
+		dispatch(setCurrentCategory(''))
 		setSearchValue('')
 		navigate('/')
 	}
