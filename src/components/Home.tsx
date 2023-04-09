@@ -111,7 +111,11 @@ const Home: FC = () => {
 					{menuCategories}
 			</MySelect>
 			</MyFormControl>
-      <Container>{ProductItems}</Container>
+      
+			{ProductItems?.length ?
+				<Container>{ProductItems}</Container> : 
+				<NoItems>No items found</NoItems>
+			}
     </div>
   )
 }
@@ -160,4 +164,10 @@ const MySelect = styled(Select)<{mytheme: 'light' | 'dark'}>`
 			'var(--dark)' : 'var(--light)'
 		} !important;
 	}
+`
+
+const NoItems = styled.div`
+	text-align: center;
+	margin: 20px 0px;
+	font-size: 24px;
 `
