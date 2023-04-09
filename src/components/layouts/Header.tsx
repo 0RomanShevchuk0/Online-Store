@@ -49,7 +49,6 @@ const Header: FC = () => {
 		return () => window.removeEventListener('resize', onResize)
 	}, [])
 
-
   return (
     <Container mytheme={theme}>
       <Link to="/">

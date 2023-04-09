@@ -28,10 +28,9 @@ const ProductDetails: FC = () => {
 	const {theme} = useContext(ThemeContext)
 	
 	const productItem = useSelector((state: GlobalStateType) => state.products.currentProduct)
-	const cartProducts: Array<ProductType> = useSelector((state: GlobalStateType) => state.cart.cartProducts)
+	const cartProducts = useSelector((state: GlobalStateType) => state.cart.cartProducts)
 	const totalPrice = useSelector((state: GlobalStateType) => state.cart.totalPrice)
 	const isAuthorized = useSelector((state: GlobalStateType) => state.user.isAuthorized)
-
 	const isProductInCart = cartProducts.some((cardProduct) => cardProduct.id === productItem?.id)
 	
 	useEffect(() => {

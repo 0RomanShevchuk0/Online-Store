@@ -1,43 +1,82 @@
-import React, { FC, useEffect } from "react"
-import { useSelector } from "react-redux"
+import React, { FC, useContext, useEffect, useMemo, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
 import styled from "styled-components"
 import { GlobalStateType } from "../redux/store"
 import { ProductType } from "../types/types"
 import Preloader from "./layouts/Preloader"
 import ProductItem from "./ProductItem"
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material"
+import { getCategories } from "../redux/products-reducer"
+import { ThemeContext } from "../providers/ThemeProvider"
 
 const Home: FC = () => {
+	const dispatch = useDispatch()
+	const searchParams = useParams()
+
+	const { theme } = useContext(ThemeContext)
   const products = useSelector(
     (state: GlobalStateType) => state.products.products
   )
-  const ProductItems = products?.map((item: ProductType) => (
+  const categories = useSelector(
+		(state: GlobalStateType) => state.products.categories
+	)
+
+	const [currentCategory, setCurrentCategory] = useState<string>('')
+	const [displayProducts, setDisplayProducts] = useState<ProductType[] | null>(null)
+
+	useEffect(() => {
+		dispatch(getCategories())
+	}, [])
+
+	useEffect(() => {
+		const searchedProducts = products
+			.filter((item) => {
+				if(searchParams.search) {
+					return item.title.toLocaleLowerCase()
+						.includes(searchParams.search.toLocaleLowerCase())
+				} else return item
+			})
+			.filter((item) => {
+				if(currentCategory !== '') {
+					return item.category === currentCategory
+				} else return item
+			})
+		setDisplayProducts(searchedProducts)
+	}, [products, searchParams.search, currentCategory])
+
+	const menuCategories = categories?.map((item, id) => {
+		return <MenuItem key={id} value={item}>{item}</MenuItem>
+	})	
+
+	const ProductItems = displayProducts?.map((item) => (
     <ProductItem key={item.id} {...item} />
   ))
 	
-  const searchParams = useParams()
-	const searchProducts = products.filter((item: ProductType) => {
-		if(searchParams.search) {
-			return item.title.toLocaleLowerCase()
-				.includes(searchParams.search.toLocaleLowerCase())
-		}
-	})
-	const searchProductItems = searchProducts.map((item: ProductType) => (
-		<ProductItem key={item.id} {...item} />
-	))
-	
-  if (products.length < 1) return <Preloader />
 
-  if (searchParams.search) {
-    return (
-      <div>
-        <Container>{searchProductItems}</Container>
-      </div>
-    )
-  }
+  if (products.length < 1) return <Preloader />
 
   return (
     <div>
+			<MyFormControl>
+				<MyInputLabel 
+					id="category-select-label" 
+					mytheme={theme}
+				>
+					Category
+				</MyInputLabel>
+				<MySelect
+					labelId="category-select-label"
+					id="category-select"
+					value={currentCategory}
+					label="Category"
+					onChange={(e) => setCurrentCategory(e.target.value as string)}
+					mytheme={theme}
+				>
+					<MenuItem value={''}>None</MenuItem>
+					{menuCategories}
+			</MySelect>
+			</MyFormControl>
       <Container>{ProductItems}</Container>
     </div>
   )
@@ -52,4 +91,39 @@ const Container = styled.div`
   @media screen and (max-width: 768px) {
     grid-template-columns: 50% 50%;
   }
+`
+const MyFormControl = styled(FormControl)`
+	width: 240px;
+	margin: 0px 20px 20px 20px !important;
+	padding: 0px 20px !important;
+	box-sizing: border-box;
+
+	@media (max-width: 768px) {
+		width: 100%;
+		margin: 0px 0px 20px 0px !important;
+	}
+`
+
+const MyInputLabel = styled(InputLabel)<{mytheme: 'light' | 'dark'}>`
+	color: ${(props) => props.mytheme === 'light' ?
+		'var(--dark)' : 'var(--light)'
+	} !important;
+	margin-left: 20px;
+`
+
+const MySelect = styled(Select)<{mytheme: 'light' | 'dark'}>`
+	color: ${(props) => props.mytheme === 'light' ?
+		'var(--dark)' : 'var(--light)'
+	} !important;
+
+	& svg {
+		color: ${(props) => props.mytheme === 'light' ?
+			'var(--dark)' : 'var(--light)'
+		};
+	}
+	& fieldset {
+		border-color: ${(props) => props.mytheme === 'light' ?
+			'var(--dark)' : 'var(--light)'
+		} !important;
+	}
 `
