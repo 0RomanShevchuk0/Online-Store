@@ -60,7 +60,7 @@ const Header: FC = () => {
 		localStorage.setItem('search', searchValue)
 		navigate(`/${searchValue}`)
 	}
-
+	
 	function handleLogoClick() {
 		localStorage.removeItem('search')
 		localStorage.removeItem('currentCategory')

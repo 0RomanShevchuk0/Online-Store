@@ -35,20 +35,6 @@ const HeaderMobileMenu: FC<HeaderPartType> = (
 			</Button>
 
 			<MyMenu {...bindMenu(popupState)} mytheme={theme} >
-				<MyMenuItem
-					onClick={() =>{
-						theme === "light" ? setTheme("dark") : setTheme("light")
-						popupState.close()
-					}}
-					sx={{...muiMenuItemSettings}}
-				>
-					Theme
-					{theme === "light" ? 
-						<LightModeIcon /> :
-						<DarkModeIcon />
-					}
-				</MyMenuItem>
-
 				{isAuthorized ? (
 					<MyMenuItem 
 						onClick={() => {
@@ -70,6 +56,20 @@ const HeaderMobileMenu: FC<HeaderPartType> = (
 						Cart <ShoppingCartIcon />
 					</MyMenuItem>
 				)}
+
+					<MyMenuItem
+						onClick={() =>{
+							theme === "light" ? setTheme("dark") : setTheme("light")
+							popupState.close()
+						}}
+						sx={{...muiMenuItemSettings}}
+					>
+						Theme
+						{theme === "light" ? 
+							<LightModeIcon /> :
+							<DarkModeIcon />
+						}
+					</MyMenuItem>
 
 				{isAuthorized ? (
 						<MyMenuItem 
