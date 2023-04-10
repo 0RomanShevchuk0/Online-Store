@@ -6,25 +6,27 @@ type PropsType = {
 	children: string
 	clickHandler?: () => void
 	type?: "button" | "submit" | "reset" | undefined 
+	disabled?: boolean
 }
 
-const MyButton: FC<PropsType> = ({children, clickHandler, type}) => {
+const MyButton: FC<PropsType> = ({children, clickHandler, type, disabled}) => {
 	const {theme} = useContext(ThemeContext)
 
 	return (
-		<ButtonContainer 
+		<Button 
 			onClick={clickHandler} 
 			type={type}
 			mytheme={theme}
+			disabled={disabled}
 		>
 			{children}
-		</ButtonContainer>
+		</Button>
 	)
 }
 
 export default MyButton
 
-const ButtonContainer = styled.button<{mytheme: 'light' | 'dark'}>`
+const Button = styled.button<{mytheme: 'light' | 'dark'}>`
 	cursor: pointer;
 	width: 362px;
 	height: 53px;
@@ -42,7 +44,13 @@ const ButtonContainer = styled.button<{mytheme: 'light' | 'dark'}>`
 	&:hover {
 		background-color: ${(props) => props.mytheme === 'light' ?
 		'var(--light-accent-hover)' : 'var(--dark-accent-hover)'
-	};
+		};
+	}
+
+	&:disabled {
+		background-color: #dcdbdb;
+		color: #fff;
+		cursor: default;
 	}
 
 	@media screen and (max-width: 1100px) {

@@ -10,7 +10,6 @@ import { getAllProducts } from "./redux/products-reducer";
 import { GlobalStateType } from "./redux/store";
 import { ThemeContext } from "./providers/ThemeProvider";
 import Preloader from "./components/layouts/Preloader";
-import { Alert } from "@mui/material";
 import Page404 from "./components/Page404";
 const ProductDetails = lazy(() => import("./components/ProductDetails"))
 const Login = lazy(() => import("./components/Login"))

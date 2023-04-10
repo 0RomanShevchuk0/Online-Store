@@ -8,10 +8,14 @@ const cartSlice = createSlice({
 		cartProducts: [] as Array<ProductType>,
 		isCartOpened: false,
 		totalPrice: 0,
+		isPurchaseSuccessVisible: false
 	},
 	reducers: {
 		addToCart(state, action) {
 			state.cartProducts.push(action.payload)
+		},
+		emptyCart(state) {
+			state.cartProducts = []
 		},
 		removeFromCart(state, action) {
 			state.cartProducts = state.cartProducts
@@ -23,10 +27,14 @@ const cartSlice = createSlice({
 		setTotalPrice(state, action) {
 			state.totalPrice = action.payload
 		},
+		setIsPurchaseSuccessVisible(state, action) {
+			state.isPurchaseSuccessVisible = action.payload
+		},
 	}
 })
 
 export const { addToCart, removeFromCart,
-	setIsCartOpened, setTotalPrice } = cartSlice.actions
+	setIsCartOpened, setTotalPrice, emptyCart,
+	setIsPurchaseSuccessVisible } = cartSlice.actions
 
 export default cartSlice.reducer

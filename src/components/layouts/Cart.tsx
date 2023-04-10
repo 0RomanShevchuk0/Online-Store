@@ -1,22 +1,29 @@
-import React, { FC, useEffect, useRef, useState } from "react"
+import React, { FC, useContext, useEffect, useRef, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import styled from "styled-components"
 import { GlobalStateType } from "../../redux/store"
 import CartProduct from "../CartProduct"
-import { setIsCartOpened } from "../../redux/cart-reducer"
+import { emptyCart, setIsCartOpened, setIsPurchaseSuccessVisible, setTotalPrice } from "../../redux/cart-reducer"
 import { numberToUSD } from "../../helpers/NumberToUSD"
 import MyButton from "../UI/MyButton"
-import emptyCart from "../../assets/empty-cart.png"
+import emptyCartImg from "../../assets/empty-cart.png"
 import CloseIcon from '@mui/icons-material/Close'
 import { useMUIIconSettings } from "../../hooks/useMUIIconSettings"
+import { Alert } from "@mui/material"
+import { ThemeContext } from "../../providers/ThemeProvider"
 
 const Cart: FC = () => {
   const dispatch = useDispatch()
+	const { theme } = useContext(ThemeContext)
+
   const cartProducts = useSelector(
     (state: GlobalStateType) => state.cart.cartProducts
   )
   const isCartOpened = useSelector(
     (state: GlobalStateType) => state.cart.isCartOpened
+  )
+  const isAlertVisible = useSelector(
+    (state: GlobalStateType) => state.cart.isPurchaseSuccessVisible
   )
 	const [muiIconSettings] = useMUIIconSettings()
 
@@ -51,12 +58,16 @@ const Cart: FC = () => {
     }
   }, [isCartOpened])
 
+
 	function handleCheckout() {
-		if(cartProducts.length > 0) {
-			alert('Thank you for the purchase')
-		} else {
-			alert('You need to add something to cart first')
-		}
+		dispatch(emptyCart())
+		dispatch(setTotalPrice(0))
+		dispatch(setIsPurchaseSuccessVisible(true))
+	}
+
+	function handleCloseCart() {
+		dispatch(setIsCartOpened(false))
+		dispatch(setIsPurchaseSuccessVisible(false))
 	}
 
   return (
@@ -65,7 +76,7 @@ const Cart: FC = () => {
       ref={ref}
       style={isCartOpened ? { marginTop: cartTopOffset } : {}}
     >
-      <Button onClick={() => dispatch(setIsCartOpened(false))} title="Close">
+      <Button onClick={handleCloseCart} title="Close">
 				<CloseIcon sx={{...muiIconSettings}} />
       </Button>
       <Title>Cart</Title>
@@ -80,12 +91,17 @@ const Cart: FC = () => {
             : {}
         }
       >
-        {cartProducts.length < 1 && <div><img src={emptyCart} alt="" /></div>}
+				<MyAlert mytheme={theme} isvisible={`${isAlertVisible}`} severity="success">
+					Thank you for the purchase
+				</MyAlert>
+        {cartProducts.length < 1 && <div><img src={emptyCartImg} alt="emptyCartImg" /></div>}
         {cartProductItems}
       </Products>
       <Summary>
         Total: {numberToUSD(totalPrice)}
-        <MyButton clickHandler={handleCheckout}>Checkout</MyButton>
+				<MyButton clickHandler={handleCheckout} disabled={cartProducts.length < 1}>
+					Checkout
+				</MyButton>
       </Summary>
     </Container>
   )
@@ -188,4 +204,14 @@ const Summary = styled.div`
     padding: 30px 0px;
     gap: 20px;
   }
-`;
+`
+
+const MyAlert = styled(Alert)<{isvisible: string, mytheme: 'light' | 'dark'}>`
+	width: 100%;
+	position: absolute;
+	top: 10px;
+	box-sizing: border-box;
+
+	display: ${(props) => props.isvisible === 'true' ? 'flex' : 'none'} !important;	
+	background-color: ${(props) => props.mytheme === 'dark' && '#88de86'} !important;
+`
