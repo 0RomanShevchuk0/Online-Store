@@ -112,9 +112,9 @@ const Home: FC = () => {
 			</MySelect>
 			</MyFormControl>
       
-			{ProductItems?.length ?
-				<Container>{ProductItems}</Container> : 
-				<NoItems>No items found</NoItems>
+			{searchParams.search && !ProductItems?.length ?
+				<NoItems>No items found</NoItems> :
+				<Container>{ProductItems}</Container>
 			}
     </div>
   )
