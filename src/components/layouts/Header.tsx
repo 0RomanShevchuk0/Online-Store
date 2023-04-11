@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import styled from "styled-components"
 import { ThemeContext } from "../../providers/ThemeProvider"
 import { GlobalStateType } from "../../redux/store"
-import { Link, useNavigate, useParams } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import SearchIcon from '@mui/icons-material/Search'
 import HeaderMobileMenu from "../HeaderMobileMenu"
 import HeaderDesktopMenu from "../HeaderDesktopMenu"
@@ -49,6 +49,7 @@ const Header: FC = () => {
 		return () => window.removeEventListener('resize', onResize)
 	}, [])
 
+	// set saved search
 	useEffect(() => {
 		if(searchValue === '') {
 			const lsSearch = localStorage.getItem('search')
@@ -67,6 +68,12 @@ const Header: FC = () => {
 		dispatch(setCurrentCategory(''))
 		setSearchValue('')
 		navigate('/')
+	}
+
+	function switchTheme() {
+		const newTheme = theme === "light" ? "dark" : "light"
+		setTheme(newTheme)
+		localStorage.setItem('theme', newTheme)	
 	}
 
   return (
@@ -91,14 +98,14 @@ const Header: FC = () => {
 				<HeaderDesktopMenu
 					isAuthorized={isAuthorized}
 					theme={theme}
-					setTheme={setTheme}
+					setNewTheme={switchTheme}
 					userName={userName}
 				/>
 			) : (
 				<HeaderMobileMenu 
 					isAuthorized={isAuthorized}
 					theme={theme}
-					setTheme={setTheme}
+					setNewTheme={switchTheme}
 				/>
 			)}
     </Container>

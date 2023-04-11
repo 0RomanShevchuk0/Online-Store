@@ -1,4 +1,4 @@
-import React, { createContext, Dispatch, FC, SetStateAction, useState } from 'react'
+import React, { createContext, Dispatch, FC, SetStateAction, useEffect, useState } from 'react'
 
 export const ThemeContext = createContext<ThemeStateType>({theme: 'light'} as ThemeStateType)
 

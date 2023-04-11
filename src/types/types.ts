@@ -16,7 +16,7 @@ export type AuthInputs = {
 
 export type HeaderPartType = {
 	theme: 'light' | 'dark'
-	setTheme: (theme: 'light' | 'dark') => void
+	setNewTheme: () => void
 	isAuthorized: boolean,
 	userName?: string | null
 }

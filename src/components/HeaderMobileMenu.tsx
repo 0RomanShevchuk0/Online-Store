@@ -19,7 +19,7 @@ import { useMUIIconSettings } from '../hooks/useMUIIconSettings'
 
 
 const HeaderMobileMenu: FC<HeaderPartType> = (
-	{ theme, setTheme, isAuthorized }) => {
+	{ theme, setNewTheme, isAuthorized }) => {
 	const dispatch = useDispatch()
   const navigate = useNavigate()
 
@@ -58,10 +58,7 @@ const HeaderMobileMenu: FC<HeaderPartType> = (
 				)}
 
 					<MyMenuItem
-						onClick={() =>{
-							theme === "light" ? setTheme("dark") : setTheme("light")
-							popupState.close()
-						}}
+						onClick={setNewTheme}
 						sx={{...muiMenuItemSettings}}
 					>
 						Theme

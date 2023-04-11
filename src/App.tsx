@@ -19,7 +19,7 @@ const SignUp = lazy(() => import("./components/SignUp"))
 
 const App = () => {
   const dispatch = useDispatch()
-  const { theme } = useContext(ThemeContext);
+  const { theme, setTheme } = useContext(ThemeContext);
   const isCartOpened = useSelector(
     (state: GlobalStateType) => state.cart.isCartOpened
   )
@@ -50,6 +50,13 @@ const App = () => {
 		}
   }, [render])
 
+	
+
+	// set saved theme
+	useEffect(() => {
+		const lcTheme = localStorage.getItem('theme') as 'light' | 'dark'
+		if(lcTheme) setTheme(lcTheme)
+	}, [])
 
 	
   useEffect(() => {

@@ -15,7 +15,7 @@ import { Button } from './layouts/Header'
 
 
 const HeaderDesktopMenu: FC<HeaderPartType> = (
-	{ theme, setTheme, isAuthorized, userName }) => {
+	{ theme, setNewTheme, isAuthorized, userName }) => {
 	const dispatch = useDispatch()
   const navigate = useNavigate()
 
@@ -24,9 +24,7 @@ const HeaderDesktopMenu: FC<HeaderPartType> = (
 	return (
 		<FlexBlock>
 					<Button
-						onClick={() =>
-							theme === "light" ? setTheme("dark") : setTheme("light")
-						}
+						onClick={setNewTheme}
 						mytheme={theme}
 					>
 						{theme === "light" ? 
