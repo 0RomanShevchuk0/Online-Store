@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { getAuth } from 'firebase/auth';
 import { Dispatch } from 'react';
 
 
@@ -6,7 +7,8 @@ type StateType = {
 	name: string | null,
 	email: string | null,
 	id: string | null,
-	isAuthorized: boolean
+	isAuthorized: boolean,
+	auth: any
 }
 
 const userSlice = createSlice({
@@ -15,7 +17,8 @@ const userSlice = createSlice({
 		name: null,
 		email: null,
 		id: null,
-		isAuthorized: false
+		isAuthorized: false,
+		auth: null,
 	} as StateType,
 	reducers: {
 		setUser(state, action) {
@@ -25,6 +28,9 @@ const userSlice = createSlice({
 			state.isAuthorized = true
 		},
 		removeUser(state) {
+			const auth = getAuth()
+			auth.signOut()
+
 			state.name = null
 			state.email = null
 			state.id = null

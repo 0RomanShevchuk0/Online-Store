@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react'
-import { set, SubmitHandler } from 'react-hook-form'
+import { SubmitHandler } from 'react-hook-form'
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth"
 import MyForm from './UI/MyForm'
 import { AuthInputs } from '../types/types'
